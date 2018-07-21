@@ -7,36 +7,36 @@ struct _angle angle;
 float q0 = 1, q1 = 0, q2 = 0, q3 = 0;     // quaternion elements representing the estimated orientation
 float exInt = 0, eyInt = 0, ezInt = 0;    // scaled integral error
 
-float ux, uy, uz;//(rÏµµ½bÏµµÄµÚÒ»ÁĞ)
-float wx, wy, wz;//(rÏµµ½bÏµµÄµÚ¶şÁĞ)
-float vx, vy, vz;//(rÏµµ½bÏµµÄµÚÈıÁĞ)
+float ux, uy, uz;//(rç³»åˆ°bç³»çš„ç¬¬ä¸€åˆ—)
+float wx, wy, wz;//(rç³»åˆ°bç³»çš„ç¬¬äºŒåˆ—)
+float vx, vy, vz;//(rç³»åˆ°bç³»çš„ç¬¬ä¸‰åˆ—)
 
 void IMUupdate(float half_T, float gx, float gy, float gz, float ax, float ay, float az)
 {
   float norm;
   float ex, ey, ez;
 		
-	//accÊı¾İ¹éÒ»»¯
+	//accæ•°æ®å½’ä¸€åŒ–
   norm = my_sqrt(ax*ax + ay*ay + az*az);       
   ax = ax / norm;
   ay = ay / norm;
   az = az / norm;
 
-  // estimated direction of gravity and flux (v and w)              ¹À¼ÆÖØÁ¦·½ÏòºÍÁ÷Á¿/±äÇ¨
-  vx = 2*(q1*q3 - q0*q2);												//ËÄÔªËØÖĞxyzµÄ±íÊ¾
+  // estimated direction of gravity and flux (v and w)              ä¼°è®¡é‡åŠ›æ–¹å‘å’Œæµé‡/å˜è¿
+  vx = 2*(q1*q3 - q0*q2);												//å››å…ƒç´ ä¸­xyzçš„è¡¨ç¤º
   vy = 2*(q0*q1 + q2*q3);
   vz = 1 - 2*(q1*q1 + q2*q2);
 	
   // error is sum of cross product between reference direction of fields and direction measured by sensors
-  ex = (ay*vz - az*vy) ;                           					 //ÏòÁ¿Íâ»ıÔÚÏà¼õµÃµ½²î·Ö¾ÍÊÇÎó²î
+  ex = (ay*vz - az*vy) ;                           					 //å‘é‡å¤–ç§¯åœ¨ç›¸å‡å¾—åˆ°å·®åˆ†å°±æ˜¯è¯¯å·®
   ey = (az*vx - ax*vz) ;
   ez = (ax*vy - ay*vx) ;
 
-  exInt = exInt + ex *Ki *2 *half_T;								  //¶ÔÎó²î½øĞĞ»ı·Ö
+  exInt = exInt + ex *Ki *2 *half_T;								  //å¯¹è¯¯å·®è¿›è¡Œç§¯åˆ†
   eyInt = eyInt + ey *Ki *2 *half_T;
   ezInt = ezInt + ez *Ki *2 *half_T;
 	
-  // »ı·ÖÏŞ·ù
+  // ç§¯åˆ†é™å¹…
 	exInt = LIMIT(exInt, - IMU_INTEGRAL_LIM ,IMU_INTEGRAL_LIM );
 	exInt = LIMIT(exInt, - IMU_INTEGRAL_LIM ,IMU_INTEGRAL_LIM );
 	exInt = LIMIT(exInt, - IMU_INTEGRAL_LIM ,IMU_INTEGRAL_LIM );
@@ -46,7 +46,7 @@ void IMUupdate(float half_T, float gx, float gy, float gz, float ax, float ay, f
   gy = gy + Kp *(ey + eyInt);				   							
   gz = gz + Kp *(ez + ezInt);					   					  							
 	
-  // integrate quaternion rate and normalise						   //ËÄÔªËØµÄÎ¢·Ö·½³Ì
+  // integrate quaternion rate and normalise						   //å››å…ƒç´ çš„å¾®åˆ†æ–¹ç¨‹
   q0 = q0 + (-q1*gx - q2*gy - q3*gz) *half_T;
   q1 = q1 + ( q0*gx + q2*gz - q3*gy) *half_T;
   q2 = q2 + ( q0*gy - q1*gz + q3*gx) *half_T;

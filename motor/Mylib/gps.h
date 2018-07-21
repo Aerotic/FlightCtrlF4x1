@@ -4,52 +4,52 @@
 #include "board.h"
 
 #define GPS_BUF_LEN      2048
-#define LATLON_TO_CM     11319500       //Î³¶È£¨¶È£©×ªÀåÃ×   PI*RADIUS_OF_EARTH/180  
+#define LATLON_TO_CM     11319500       //çº¬åº¦ï¼ˆåº¦ï¼‰è½¬å˜ç±³   PI*RADIUS_OF_EARTH/180  
 #define FILTER_K1        0.2f
 
 #define MAX_GPS_SPEED    250.0f
 
 struct _gps 
 {		
-	double lat;			//Î³¶È
-	double lon;			//¾­¶È
-	double homelat; //¼ÒÎ³¶È
-	double homelon; //¼Ò¾­¶È
-	double rellat;  //Î³¶ÈÏà¶Ô×ø±ê
-	double rellon;  //¾­¶ÈÏà¶Ô×ø±ê
-	double leader_lat;//leaderµÄÎ³¶È
-	double leader_lon;//leaderµÄ¾­¶È
-	double disx_cm_to_leader;//ºÍleaderµÄx¾àÀë
-	double disy_cm_to_leader;//ºÍleaderµÄy¾àÀë
-	double rellat_aim;//Ä¿±êÏà¶ÔÎ³¶È
-	double rellon_aim;//Ä¿±êÏà¶Ô¾­¶È
-	double speed;   //ÒÆ¶¯ËÙÂÊ
-	double azimuth; //ÒÆ¶¯·½Ïò
-	float  latacc;  //Î³¶È·½Ïò¼ÓËÙ¶È
-	float  lonacc;	//¾­¶È·½Ïò¼ÓËÙ¶È
-	float  latvel;  //Î³¶È·½ÏòËÙ¶È
-	float  lonvel;  //¾­¶È·½ÏòËÙ¶È
-	float  leader_pitch;//leader¸©Ñö
-	float  leader_roll; //leaderºá¹ö
-	float  leader_yaw;  //leaderÆ«º½
-	float  leader_latvel;//leaderÎ³¶È·½ÏòµÄËÙ¶È
-	float  leader_lonvel;//leader¾­¶È·½ÏòµÄËÙ¶È
-	float  leader_hight; //leader¸ß¶È
-	u8 homeisok;		//¼ÒÎ»ÖÃÈ·¶¨				 
+	double lat;			//çº¬åº¦
+	double lon;			//ç»åº¦
+	double homelat; //å®¶çº¬åº¦
+	double homelon; //å®¶ç»åº¦
+	double rellat;  //çº¬åº¦ç›¸å¯¹åæ ‡
+	double rellon;  //ç»åº¦ç›¸å¯¹åæ ‡
+	double leader_lat;//leaderçš„çº¬åº¦
+	double leader_lon;//leaderçš„ç»åº¦
+	double disx_cm_to_leader;//å’Œleaderçš„xè·ç¦»
+	double disy_cm_to_leader;//å’Œleaderçš„yè·ç¦»
+	double rellat_aim;//ç›®æ ‡ç›¸å¯¹çº¬åº¦
+	double rellon_aim;//ç›®æ ‡ç›¸å¯¹ç»åº¦
+	double speed;   //ç§»åŠ¨é€Ÿç‡
+	double azimuth; //ç§»åŠ¨æ–¹å‘
+	float  latacc;  //çº¬åº¦æ–¹å‘åŠ é€Ÿåº¦
+	float  lonacc;	//ç»åº¦æ–¹å‘åŠ é€Ÿåº¦
+	float  latvel;  //çº¬åº¦æ–¹å‘é€Ÿåº¦
+	float  lonvel;  //ç»åº¦æ–¹å‘é€Ÿåº¦
+	float  leader_pitch;//leaderä¿¯ä»°
+	float  leader_roll; //leaderæ¨ªæ»š
+	float  leader_yaw;  //leaderåèˆª
+	float  leader_latvel;//leaderçº¬åº¦æ–¹å‘çš„é€Ÿåº¦
+	float  leader_lonvel;//leaderç»åº¦æ–¹å‘çš„é€Ÿåº¦
+	float  leader_hight; //leaderé«˜åº¦
+	u8 homeisok;		//å®¶ä½ç½®ç¡®å®š				 
 };
 		
 struct _GPSINFO
 {
-	u8 UtcTime[11]; 	//Ê±¼ä
-	u8 Statue;   			//¶¨Î»×´Ì¬
-	u8 Latitude[10];	//Î³¶È
-	u8 LatitudeNS; 		//Î³¶È°ëÇò
-	u8 Longitude[11];	//¾­¶È
-	u8 LongitudeEW;		//¾­¶È°ëÇò
-	u8 Speed[6];	    //µØÃæËÙÂÊ
-	u8 Azimuth[6];	  //º½Ïò
-	u8 UtcData[7]; 		//ÈÕÆÚ  
-	u8 Altitude[8];   //¸ß¶È
+	u8 UtcTime[11]; 	//æ—¶é—´
+	u8 Statue;   			//å®šä½çŠ¶æ€
+	u8 Latitude[10];	//çº¬åº¦
+	u8 LatitudeNS; 		//çº¬åº¦åŠçƒ
+	u8 Longitude[11];	//ç»åº¦
+	u8 LongitudeEW;		//ç»åº¦åŠçƒ
+	u8 Speed[6];	    //åœ°é¢é€Ÿç‡
+	u8 Azimuth[6];	  //èˆªå‘
+	u8 UtcData[7]; 		//æ—¥æœŸ  
+	u8 Altitude[8];   //é«˜åº¦
 };
 
 struct _xy_efdata

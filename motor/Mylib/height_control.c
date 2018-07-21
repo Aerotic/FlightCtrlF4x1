@@ -4,9 +4,9 @@ struct _height_control hgt_ctrl;
 
 void Height_Acceleration_Control(float T)
 {
-		/*ÊúÖ±¼ÓËÙ¶ÈµÍÍ¨ÂË²¨*/
+		/*ç«–ç›´åŠ é€Ÿåº¦ä½é€šæ»¤æ³¢*/
 	  float accel_ef_lpf = LPF2pApply_1(z_ef.accz.base);
-		/*¼ÓËÙ¶Èpid¿ØÖÆ£¬´Ë´¦×÷ÓÃÖ»ÎªÔö´ó×èÄá*/
+		/*åŠ é€Ÿåº¦pidæ§åˆ¶ï¼Œæ­¤å¤„ä½œç”¨åªä¸ºå¢å¤§é˜»å°¼*/
 	  hgt_ctrl.acc.out_p = -accel_ef_lpf*hgt_ctrl.acc.kp;
 	  hgt_ctrl.acc.out = hgt_ctrl.acc.out_p;
 }
@@ -21,12 +21,12 @@ void Height_Velocity_Control(float T)
 
 void Height_Position_Control(float T)
 {
-		/*¶¨¸ßÄ£Ê½·¢Éú±ä»¯*/
+		/*å®šé«˜æ¨¡å¼å‘ç”Ÿå˜åŒ–*/
     if(RC.CH[4]!=RC.CH_LAST[4])
 		{
        if(RC.CH[4]==1)  hgt_ctrl.pos.exp = z_ef.posz.base;//cm
     }
-    /*ÆøÑ¹¶¨¸ß*/		
+    /*æ°”å‹å®šé«˜*/		
 		if(RC.CH[4]==1)
 		{
 				if(thr.value>600)
@@ -48,8 +48,8 @@ void Height_Position_Control(float T)
 					hgt_ctrl.pos.out_p = hgt_ctrl.pos.err*hgt_ctrl.pos.kp;
 					hgt_ctrl.pos.out = hgt_ctrl.pos.out_p + hgt_ctrl.pos.out_i;
 		}
-		/*×ËÌ¬Ä£Ê½£¬±£Ö¤ËÙ¶È²»»áÌ«´ó*/
-		if(RC.CH[4]==3||RC.CH[4]==0)//0 ppm½ÓÊÕ»ú
+		/*å§¿æ€æ¨¡å¼ï¼Œä¿è¯é€Ÿåº¦ä¸ä¼šå¤ªå¤§*/
+		if(RC.CH[4]==3||RC.CH[4]==0)//0 ppmæ¥æ”¶æœº
 		{
 			hgt_ctrl.pos.out_i = 0;
 			hgt_ctrl.pos.out = (thr.value-450)*0.5f;

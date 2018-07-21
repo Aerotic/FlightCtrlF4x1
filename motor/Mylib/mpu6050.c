@@ -2,9 +2,9 @@
 
 struct _sensor sensor;
 
-u8 mpu6050_buffer[12];                    //½ÓÊÕÊı¾İ»º´æÇø
+u8 mpu6050_buffer[12];                    //æ¥æ”¶æ•°æ®ç¼“å­˜åŒº
 
-// MPU6050, Ó²¼şI2cµØÖ· 0x68£¬Ä£Äâi2cµØÖ·0xD0
+// MPU6050, ç¡¬ä»¶I2cåœ°å€ 0x68ï¼Œæ¨¡æ‹Ÿi2cåœ°å€0xD0
 #define MPU6050_ADDRESS           0xD0	  // 0x68
 #define DMP_MEM_START_ADDR        0x6E
 #define DMP_MEM_R_W               0x6F
@@ -117,7 +117,7 @@ u8 mpu6050_buffer[12];                    //½ÓÊÕÊı¾İ»º´æÇø
 #define MPU6050G_s2000dps         ((float)0.0609756f)  // 0.0700000 dps/LSB
 
 
-//MPU6050³õÊ¼»¯£¬´«Èë²ÎÊı£º²ÉÑùÂÊ£¬µÍÍ¨ÂË²¨ÆµÂÊ
+//MPU6050åˆå§‹åŒ–ï¼Œä¼ å…¥å‚æ•°ï¼šé‡‡æ ·ç‡ï¼Œä½é€šæ»¤æ³¢é¢‘ç‡
 void Mpu6050_Init(uint16_t sample_rate, uint16_t lpf)
 {
 	uint8_t default_filter;
@@ -149,57 +149,57 @@ void Mpu6050_Init(uint16_t sample_rate, uint16_t lpf)
 			break;
 	}	
 	
-	//Éè±¸¸´Î»
+	//è®¾å¤‡å¤ä½
 	I2C_Soft_Single_Write(MPU6050_ADDRESS,MPU_RA_PWR_MGMT_1, 0x80);	
 	
 	DelayMs(5);
 	
-	//ÍÓÂİÒÇ²ÉÑùÂÊ£¬0x00(1000Hz)   ²ÉÑùÂÊ = ÍÓÂİÒÇµÄÊä³öÂÊ / (1 + SMPLRT_DIV)
+	//é™€èºä»ªé‡‡æ ·ç‡ï¼Œ0x00(1000Hz)   é‡‡æ ·ç‡ = é™€èºä»ªçš„è¾“å‡ºç‡ / (1 + SMPLRT_DIV)
 	I2C_Soft_Single_Write(MPU6050_ADDRESS,MPU_RA_SMPLRT_DIV, (1000/sample_rate - 1));	
-	//ÉèÖÃÉè±¸Ê±ÖÓÔ´£¬ÍÓÂİÒÇZÖá
+	//è®¾ç½®è®¾å¤‡æ—¶é’Ÿæºï¼Œé™€èºä»ªZè½´
 	I2C_Soft_Single_Write(MPU6050_ADDRESS, MPU_RA_PWR_MGMT_1, 0x03);	
-	//i2cÅÔÂ·Ä£Ê½
+	//i2cæ—è·¯æ¨¡å¼
 	I2C_Soft_Single_Write(MPU6050_ADDRESS, MPU_RA_INT_PIN_CFG, 0 << 7 | 0 << 6 | 0 << 5 | 0 << 4 | 0 << 3 | 0 << 2 | 1 << 1 | 0 << 0); 
 	//INT_PIN_CFG   -- INT_LEVEL_HIGH, INT_OPEN_DIS, LATCH_INT_DIS, INT_RD_CLEAR_DIS, FSYNC_INT_LEVEL_HIGH, FSYNC_INT_DIS, I2C_BYPASS_EN, CLOCK_DIS
-	//µÍÍ¨ÂË²¨ÆµÂÊ£¬0x03(42Hz)
+	//ä½é€šæ»¤æ³¢é¢‘ç‡ï¼Œ0x03(42Hz)
 	I2C_Soft_Single_Write(MPU6050_ADDRESS,MPU_RA_CONFIG, default_filter);	
-	//ÍÓÂİÒÇ×Ô¼ì¼°²âÁ¿·¶Î§£¬µäĞÍÖµ£º0x18(²»×Ô¼ì£¬2000deg/s)
+	//é™€èºä»ªè‡ªæ£€åŠæµ‹é‡èŒƒå›´ï¼Œå…¸å‹å€¼ï¼š0x18(ä¸è‡ªæ£€ï¼Œ2000deg/s)
 	I2C_Soft_Single_Write(MPU6050_ADDRESS, MPU_RA_GYRO_CONFIG, 0x18); 
-	//¼ÓËÙ¼Æ×Ô¼ì¡¢²âÁ¿·¶Î§(²»×Ô¼ì£¬+-8G)			
+	//åŠ é€Ÿè®¡è‡ªæ£€ã€æµ‹é‡èŒƒå›´(ä¸è‡ªæ£€ï¼Œ+-8G)			
 	I2C_Soft_Single_Write(MPU6050_ADDRESS,MPU_RA_ACCEL_CONFIG, 2 << 3);	
 	
 }
 
-//¶ÁÈ¡¼ÓËÙ¶È
+//è¯»å–åŠ é€Ÿåº¦
 void Mpu6050_Read_Acc_Data(void)
 {
 	mpu6050_buffer[0] = I2C_Soft_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_XOUT_L); 
 	mpu6050_buffer[1] = I2C_Soft_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_XOUT_H);
-	sensor.acc.origin.x = ((((int16_t)mpu6050_buffer[1]) << 8) | mpu6050_buffer[0]) ;  //¼ÓËÙ¶ÈXÖá
+	sensor.acc.origin.x = ((((int16_t)mpu6050_buffer[1]) << 8) | mpu6050_buffer[0]) ;  //åŠ é€Ÿåº¦Xè½´
 
 	mpu6050_buffer[2] = I2C_Soft_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_YOUT_L);
 	mpu6050_buffer[3] = I2C_Soft_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_YOUT_H);
-	sensor.acc.origin.y = ((((int16_t)mpu6050_buffer[3]) << 8) | mpu6050_buffer[2]) ;  //¼ÓËÙ¶ÈYÖá
+	sensor.acc.origin.y = ((((int16_t)mpu6050_buffer[3]) << 8) | mpu6050_buffer[2]) ;  //åŠ é€Ÿåº¦Yè½´
 
 	mpu6050_buffer[4] = I2C_Soft_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_ZOUT_L);
 	mpu6050_buffer[5] = I2C_Soft_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_ZOUT_H);
-	sensor.acc.origin.z = ((((int16_t)mpu6050_buffer[5]) << 8) | mpu6050_buffer[4]) ;  //¼ÓËÙ¶ÈZÖá
+	sensor.acc.origin.z = ((((int16_t)mpu6050_buffer[5]) << 8) | mpu6050_buffer[4]) ;  //åŠ é€Ÿåº¦Zè½´
 }
 
-//¶ÁÈ¡½ÇËÙ¶È
+//è¯»å–è§’é€Ÿåº¦
 void Mpu6050_Read_Gyro_Data(void)
 {
 	mpu6050_buffer[6] = I2C_Soft_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_XOUT_L); 
 	mpu6050_buffer[7] = I2C_Soft_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_XOUT_H);
-	sensor.gyro.origin.x = ((((int16_t)mpu6050_buffer[7]) << 8) | mpu6050_buffer[6]) ;	 //ÍÓÂİÒÇXÖá
+	sensor.gyro.origin.x = ((((int16_t)mpu6050_buffer[7]) << 8) | mpu6050_buffer[6]) ;	 //é™€èºä»ªXè½´
 
 	mpu6050_buffer[8] = I2C_Soft_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_YOUT_L);
 	mpu6050_buffer[9] = I2C_Soft_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_YOUT_H);
-	sensor.gyro.origin.y = ((((int16_t)mpu6050_buffer[9]) << 8) | mpu6050_buffer[8]) ;	 //ÍÓÂİÒÇYÖá
+	sensor.gyro.origin.y = ((((int16_t)mpu6050_buffer[9]) << 8) | mpu6050_buffer[8]) ;	 //é™€èºä»ªYè½´
 
 	mpu6050_buffer[10] = I2C_Soft_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_ZOUT_L);
 	mpu6050_buffer[11] = I2C_Soft_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_ZOUT_H);
-	sensor.gyro.origin.z = ((((int16_t)mpu6050_buffer[11]) << 8) | mpu6050_buffer[10]) ; //ÍÓÂİÒÇZÖá		
+	sensor.gyro.origin.z = ((((int16_t)mpu6050_buffer[11]) << 8) | mpu6050_buffer[10]) ; //é™€èºä»ªZè½´		
 }
 
 void Mpu6050_Read(void)
@@ -209,15 +209,15 @@ void Mpu6050_Read(void)
 	Mpu6050_Read_Gyro_Data();
 }
 
-//¼ÓËÙ¶ÈÁãÆ«½ÃÕı
+//åŠ é€Ÿåº¦é›¶åçŸ«æ­£
 void Mpu6050_CalOffset_Acc(void)
 {
-	sensor.acc.offset.x =100;//Ç°-ºó+    -80
-	sensor.acc.offset.y =-100;//×ó-ÓÒ+    -95
+	sensor.acc.offset.x =100;//å‰-å+    -80
+	sensor.acc.offset.y =-100;//å·¦-å³+    -95
 	sensor.acc.offset.z =0;
 }
 
-//ÍÓÂİÒÇÁãÆ«½ÃÕı
+//é™€èºä»ªé›¶åçŸ«æ­£
 void Mpu6050_CalOffset_Gyro(void)
 {
 		uint16_t cnt_g =1000;
@@ -253,7 +253,7 @@ void Mpu6050_CalOffset_Gyro(void)
 //				tempgz += sensor.gyro.origin.z;
     }
 		 
-		 //1000´ÎÊı¾İÓĞÒ»¸öÒì³£,ÖØĞÂĞ£×¼
+		 //1000æ¬¡æ•°æ®æœ‰ä¸€ä¸ªå¼‚å¸¸,é‡æ–°æ ¡å‡†
 		 if(sensor.gyro.offset_max.x-sensor.gyro.offset_min.x>20||
 			  sensor.gyro.offset_max.y-sensor.gyro.offset_min.y>20||
 		    sensor.gyro.offset_max.z-sensor.gyro.offset_min.z>20)
@@ -269,14 +269,14 @@ void Mpu6050_CalOffset_Gyro(void)
 		 }
 }
 
-//mpu6050Êı¾İ×¼±¸
+//mpu6050æ•°æ®å‡†å¤‡
 void Mpu6050_Data_Prepare(void)
 {	
 	u8 i;
 	int32_t FILT_TMP[ITEMS] = {0};
   static int16_t FILT_BUF[ITEMS][MPU6050_FILTER_NUM] = {0};
 
-	/* µÃ³öĞ£×¼ºóµÄÊı¾İ */
+	/* å¾—å‡ºæ ¡å‡†åçš„æ•°æ® */
 	sensor.acc.calibration.x = sensor.acc.origin.x  - sensor.acc.offset.x ;
 	sensor.acc.calibration.y = sensor.acc.origin.y  - sensor.acc.offset.y ;
 	sensor.acc.calibration.z = sensor.acc.origin.z  - sensor.acc.offset.z ;

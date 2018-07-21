@@ -162,13 +162,13 @@ float my_atan(float x, float y)
 	return fast_atan2(y, x);
 }
 
-//¼ÆËã¸¡µãÊıÆ½·½
+//è®¡ç®—æµ®ç‚¹æ•°å¹³æ–¹
 float my_pow(float a)
 {
 	return a*a;
 }
 
-//¿ìËÙÆ½·½¸ùËã·¨
+//å¿«é€Ÿå¹³æ–¹æ ¹ç®—æ³•
 float my_sqrt(float number)
 {
 	long i;

@@ -15,7 +15,7 @@ int I2C_Soft_Start(void);
 void I2C_Soft_Stop(void);
 void I2C_Soft_Ack(void);
 void I2C_Soft_NoAck(void);
-int I2C_Soft_WaitAck(void); 	 //·µ»Ø:=1ÓÐACK,=0ÎÞACK
+int I2C_Soft_WaitAck(void); 	 //è¿”å›ž:=1æœ‰ACK,=0æ— ACK
 void I2C_Soft_SendByte(u8 SendByte);
 u8 I2C_Soft_ReadByte(void);
 

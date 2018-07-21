@@ -1,8 +1,8 @@
 /*********************************************
-              ¢Ú     ¢Ù
+              â‘¡     â‘ 
                  \ /
                  / \
-              ¢Û     ¢Ü
+              â‘¢     â‘£
 **********************************************/
 #include "pwm_out.h"
 
@@ -131,21 +131,21 @@ void Motor_Speed_Update(void)
 	}
 	else
 		aircraft.lockchange = 0;
-	//Ò£¿ØÄÚ°Ë ·É»úËø×´Ì¬ÐèÒª¸Ä±ä
+	//é¥æŽ§å†…å…« é£žæœºé”çŠ¶æ€éœ€è¦æ”¹å˜
 	/*
 	if(RC.CH[2]>=650 && RC.CH[3]<=-650)
 		aircraft.lockchange = 1;
 	else
 		aircraft.lockchange = 0;
 	*/
-	//·É»úËø×´Ì¬¸Ä±äÍê³É
+	//é£žæœºé”çŠ¶æ€æ”¹å˜å®Œæˆ
 	if(aircraft.lockchange == 0 && aircraft.lockchange_last == 1)
 	{
-    if(aircraft.unlock) aircraft.unlock = 0;//·É»úÉÏËø
+    if(aircraft.unlock) aircraft.unlock = 0;//é£žæœºä¸Šé”
 		else 
 		{
-			aircraft.unlock = 1;									//½âËø
-			ctrl.outer.exp.z = 0;                 //ÆÚÍûÆ«º½½ÇÎªµ±Ç°Æ«º½½Ç
+			aircraft.unlock = 1;									//è§£é”
+			ctrl.outer.exp.z = 0;                 //æœŸæœ›åèˆªè§’ä¸ºå½“å‰åèˆªè§’
 			q0 = 1; q1 = 0; q2 = 0; q3 = 0;
 		}
   }
@@ -153,7 +153,7 @@ void Motor_Speed_Update(void)
 	
 	if(aircraft.init_ok)
 	{
-			//·É»ú½âËø ×îµÍµ¡ËÙ
+			//é£žæœºè§£é” æœ€ä½Žæ€ é€Ÿ
 			if(aircraft.unlock)
 			{
 				thr.comp = thr.value/cos(angle.pitch/RtA)/cos(angle.roll/RtA);
@@ -175,7 +175,7 @@ void Motor_Speed_Update(void)
 				speed.motor3 = LIMIT(speed.motor3, READY_THR*0.8f, MAX_THR *1.1f);
 				speed.motor4 = LIMIT(speed.motor4, READY_THR*0.8f, MAX_THR *1.1f);
 			}
-			//·É»úÉÏËø µç»úÍ£Ö¹
+			//é£žæœºä¸Šé” ç”µæœºåœæ­¢
 			else
 			{ 
 				speed.motor1 = 0;

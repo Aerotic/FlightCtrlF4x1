@@ -4,7 +4,7 @@
 #include "board.h"
 
 //****************************************
-// ¶¨ÒåHMC5883LÄÚ²¿µØÖ·
+// å®šä¹‰HMC5883Lå†…éƒ¨åœ°å€
 //****************************************
 #define HMC5883L_CONFIG_A 0x00
 #define HMC5883L_CONFIG_B 0x01
@@ -34,16 +34,16 @@ struct _FLOAT{
 				float z;};
 
 struct _mag{   
-			 struct _int origin;	//Ô­Ê¼Öµ
-	     struct _FLOAT moxin; //¹éÒ»»¯Öµ
-			 struct _FLOAT out;   //Êä³öÖµ
-			 struct _int max;   	//×î´óÖµ
-	     struct _int min;   	//×îĞ¡Öµ
-	     struct _FLOAT gain;  //±ÈÀıÏµÊı
-	     struct _FLOAT offset;//Ô²ĞÄÎ»ÖÃ
-	     float heading;     	//·½Ïò
-	     float heading_filter;//·½ÏòÂË²¨
-	     float heading_offset;//±£Ö¤»úÍ·³¯Ïò±±·½·½ÏòÎª0
+			 struct _int origin;	//åŸå§‹å€¼
+	     struct _FLOAT moxin; //å½’ä¸€åŒ–å€¼
+			 struct _FLOAT out;   //è¾“å‡ºå€¼
+			 struct _int max;   	//æœ€å¤§å€¼
+	     struct _int min;   	//æœ€å°å€¼
+	     struct _FLOAT gain;  //æ¯”ä¾‹ç³»æ•°
+	     struct _FLOAT offset;//åœ†å¿ƒä½ç½®
+	     float heading;     	//æ–¹å‘
+	     float heading_filter;//æ–¹å‘æ»¤æ³¢
+	     float heading_offset;//ä¿è¯æœºå¤´æœå‘åŒ—æ–¹æ–¹å‘ä¸º0
            };
 
 extern struct _mag mag;	

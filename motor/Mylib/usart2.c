@@ -12,11 +12,11 @@
 //		}
 //		if(RC.OutofControl == 1)
 //		{
-//			/*Ê§¿ØÊ±Ô­µØ½µÂä*/
+//			/*å¤±æ§æ—¶åŸåœ°é™è½*/
 //			RC.CH[0] = 0;
 //			RC.CH[1] = 0;
 //			RC.CH[2] = 0;
-//			RC.CH[3] = -260;//ÓÍÃÅ34.2% 54cm/sÏÂ½µ
+//			RC.CH[3] = -260;//æ²¹é—¨34.2% 54cm/sä¸‹é™
 //			RC.CH[4] = 3;
 //			RC.CH[5] = 2;	
 //		}
@@ -107,43 +107,43 @@
 //		RC.CH_LAST[3] = RC.CH[3];
 //	
 //	
-//	//ÃÀ¹úÊÖ
-///*			//ÓÒÒ¡¸ËºáÏò  ·¶Î§+-660
+//	//ç¾å›½æ‰‹
+///*			//å³æ‘‡æ†æ¨ªå‘  èŒƒå›´+-660
 //		sbus_decode_buffer[0] = (sbus_rx_buffer[0]| (sbus_rx_buffer[1] << 8)) & 0x07ff; //!< Channel 0
 //		RC.CH[0] = (my_deathzoom(sbus_decode_buffer[0]-1024, 5));
-//		//ÓÒÒ¡¸Ë×İÏò   ·¶Î§+-660
+//		//å³æ‘‡æ†çºµå‘   èŒƒå›´+-660
 //		sbus_decode_buffer[1] = ((sbus_rx_buffer[1] >> 3) | (sbus_rx_buffer[2] << 5)) & 0x07ff;
 //		RC.CH[1] = (my_deathzoom(sbus_decode_buffer[1]-1024, 5));
-//		//×óÒ¡¸ËºáÏò   ·¶Î§+-660
+//		//å·¦æ‘‡æ†æ¨ªå‘   èŒƒå›´+-660
 //		sbus_decode_buffer[2]= ((sbus_rx_buffer[2] >> 6) | (sbus_rx_buffer[3] << 2) | (sbus_rx_buffer[4] << 10)) & 0x07ff; //!< Channel 2
 //		RC.CH[2] = my_deathzoom(sbus_decode_buffer[2]-1024, 5);
-//		//×óÒ¡¸Ë×İÏò   ·¶Î§+-660
+//		//å·¦æ‘‡æ†çºµå‘   èŒƒå›´+-660
 //		sbus_decode_buffer[3] = ((sbus_rx_buffer[4] >> 1) | (sbus_rx_buffer[5] << 7)) & 0x07ff; //!< Channel 3
 //		RC.CH[3] = (my_deathzoom(sbus_decode_buffer[3]-1024, 5));
-//		//×ó±ß¿ª¹Ø  132 ÉÏÖĞÏÂ
+//		//å·¦è¾¹å¼€å…³  132 ä¸Šä¸­ä¸‹
 //		RC.CH[4] = ((sbus_rx_buffer[5] >> 4)& 0x000C) >> 2; //!< Switch left
-//		//ÓÒ±ß¿ª¹Ø  132 ÉÏÖĞÏÂ
+//		//å³è¾¹å¼€å…³  132 ä¸Šä¸­ä¸‹
 //		RC.CH[5] = ((sbus_rx_buffer[5] >> 4)& 0x0003); //!< Switch right9 / 9  
 //		*/ 
-//		//ÈÕ±¾ÊÖ
+//		//æ—¥æœ¬æ‰‹
 
-//		//ÓÒÒ¡¸ËºáÏò  ·¶Î§+-660
+//		//å³æ‘‡æ†æ¨ªå‘  èŒƒå›´+-660
 //		sbus_decode_buffer[0] = (sbus_rx_buffer[0]| (sbus_rx_buffer[1] << 8)) & 0x07ff; //!< Channel 0
 //		RC.CH[0] = (my_deathzoom(sbus_decode_buffer[0]-1024, 5));
-//		//ÓÒÒ¡¸Ë×İÏò   ·¶Î§+-660
+//		//å³æ‘‡æ†çºµå‘   èŒƒå›´+-660
 //		sbus_decode_buffer[1] = ((sbus_rx_buffer[1] >> 3) | (sbus_rx_buffer[2] << 5)) & 0x07ff;
 //		RC.CH[3] = (my_deathzoom(sbus_decode_buffer[1]-1024, 5));
-//		//×óÒ¡¸ËºáÏò   ·¶Î§+-660
+//		//å·¦æ‘‡æ†æ¨ªå‘   èŒƒå›´+-660
 //		sbus_decode_buffer[2]= ((sbus_rx_buffer[2] >> 6) | (sbus_rx_buffer[3] << 2) | (sbus_rx_buffer[4] << 10)) & 0x07ff; //!< Channel 2
 //		RC.CH[2] = my_deathzoom(sbus_decode_buffer[2]-1024, 5);
-//		//×óÒ¡¸Ë×İÏò   ·¶Î§+-660
+//		//å·¦æ‘‡æ†çºµå‘   èŒƒå›´+-660
 //		sbus_decode_buffer[3] = ((sbus_rx_buffer[4] >> 1) | (sbus_rx_buffer[5] << 7)) & 0x07ff; //!< Channel 3
 //		RC.CH[1] = (my_deathzoom(sbus_decode_buffer[3]-1024, 5));
-//		//×ó±ß¿ª¹Ø  132 ÉÏÖĞÏÂ
+//		//å·¦è¾¹å¼€å…³  132 ä¸Šä¸­ä¸‹
 //		RC.CH[4] = ((sbus_rx_buffer[5] >> 4)& 0x000C) >> 2; //!< Switch left
-//		//ÓÒ±ß¿ª¹Ø  132 ÉÏÖĞÏÂ
+//		//å³è¾¹å¼€å…³  132 ä¸Šä¸­ä¸‹
 //		RC.CH[5] = ((sbus_rx_buffer[5] >> 4)& 0x0003); //!< Switch right9 / 9  
-//		//Ç¿ÖÆÍ£»ú
+//		//å¼ºåˆ¶åœæœº
 //		if(RC.CH[5]==2)
 //		{
 //			aircraft.unlock = 0;

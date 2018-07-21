@@ -2,7 +2,7 @@
 
 u8 I2C_FastMode;
 
-//Ä£ÄâIIC³õÊ¼»¯
+//æ¨¡æ‹ŸIICåˆå§‹åŒ–
 void I2C_Soft_Init(void)
 {
   GPIO_InitTypeDef  GPIO_InitStructure; 
@@ -35,10 +35,10 @@ int I2C_Soft_Start(void)
 	SDA_H;
 	SCL_H;
 	I2C_Soft_Delay();
-	if(!SDA_read)return 0;	//SDAÏßÎªµÍµçÆ½Ôò×ÜÏßÃ¦,ÍË³ö
+	if(!SDA_read)return 0;	//SDAçº¿ä¸ºä½ç”µå¹³åˆ™æ€»çº¿å¿™,é€€å‡º
 	SDA_L;
 	I2C_Soft_Delay();
-	if(SDA_read) return 0;	//SDAÏßÎª¸ßµçÆ½Ôò×ÜÏß³ö´í,ÍË³ö
+	if(SDA_read) return 0;	//SDAçº¿ä¸ºé«˜ç”µå¹³åˆ™æ€»çº¿å‡ºé”™,é€€å‡º
 	SDA_L;
 	I2C_Soft_Delay();
 	return 1;	
@@ -80,7 +80,7 @@ void I2C_Soft_NoAck(void)
 	I2C_Soft_Delay();
 } 
 
-int I2C_Soft_WaitAck(void) 	 //·µ»ØÎª:=1ÓĞACK,=0ÎŞACK
+int I2C_Soft_WaitAck(void) 	 //è¿”å›ä¸º:=1æœ‰ACK,=0æ— ACK
 {
 	SCL_L;
 	I2C_Soft_Delay();
@@ -118,7 +118,7 @@ void I2C_Soft_SendByte(u8 SendByte)
     SCL_L;
 }  
 
-u8 I2C_Soft_ReadByte(void)  //Êı¾İ´Ó¸ßÎ»µ½µÍÎ»//
+u8 I2C_Soft_ReadByte(void)  //æ•°æ®ä»é«˜ä½åˆ°ä½ä½//
 { 
     u8 i=8;
     u8 ReceiveByte=0;
@@ -140,13 +140,13 @@ u8 I2C_Soft_ReadByte(void)  //Êı¾İ´Ó¸ßÎ»µ½µÍÎ»//
     return ReceiveByte;
 } 
 
-//µ¥×Ö½ÚĞ´Èë
+//å•å­—èŠ‚å†™å…¥
 int I2C_Soft_Single_Write(u8 SlaveAddress,u8 REG_Address,u8 REG_data)		
 {
   	if(!I2C_Soft_Start())return 0;
-    I2C_Soft_SendByte(SlaveAddress);   //·¢ËÍÉè±¸µØÖ·+Ğ´ĞÅºÅ//I2C_SendByte(((REG_Address & 0x0700) >>7) | SlaveAddress & 0xFFFE);//ÉèÖÃ¸ßÆğÊ¼µØÖ·+Æ÷¼şµØÖ· 
+    I2C_Soft_SendByte(SlaveAddress);   //å‘é€è®¾å¤‡åœ°å€+å†™ä¿¡å·//I2C_SendByte(((REG_Address & 0x0700) >>7) | SlaveAddress & 0xFFFE);//è®¾ç½®é«˜èµ·å§‹åœ°å€+å™¨ä»¶åœ°å€ 
     if(!I2C_Soft_WaitAck()){I2C_Soft_Stop(); return 0;}
-    I2C_Soft_SendByte(REG_Address );   //ÉèÖÃµÍÆğÊ¼µØÖ·      
+    I2C_Soft_SendByte(REG_Address );   //è®¾ç½®ä½èµ·å§‹åœ°å€      
     I2C_Soft_WaitAck();	
     I2C_Soft_SendByte(REG_data);
     I2C_Soft_WaitAck();   
@@ -154,18 +154,18 @@ int I2C_Soft_Single_Write(u8 SlaveAddress,u8 REG_Address,u8 REG_data)
     return 1;
 }
 
-//µ¥×Ö½Ú¶ÁÈ¡
+//å•å­—èŠ‚è¯»å–
 int I2C_Soft_Single_Read(u8 SlaveAddress,u8 REG_Address)
 {   
 		unsigned char REG_data;     	
 		if(!I2C_Soft_Start())return 0;
-    I2C_Soft_SendByte(SlaveAddress); //I2C_SendByte(((REG_Address & 0x0700) >>7) | REG_Address & 0xFFFE);//ÉèÖÃ¸ßÆğÊ¼µØÖ·+Æ÷¼şµØÖ· 
+    I2C_Soft_SendByte(SlaveAddress); //I2C_SendByte(((REG_Address & 0x0700) >>7) | REG_Address & 0xFFFE);//è®¾ç½®é«˜èµ·å§‹åœ°å€+å™¨ä»¶åœ°å€ 
     if(!I2C_Soft_WaitAck())
 		{
 			I2C_Soft_Stop();
 			return 0;
 		}
-    I2C_Soft_SendByte((u8) REG_Address);   //ÉèÖÃµÍÆğÊ¼µØÖ·      
+    I2C_Soft_SendByte((u8) REG_Address);   //è®¾ç½®ä½èµ·å§‹åœ°å€      
     I2C_Soft_WaitAck();
     I2C_Soft_Start();
     I2C_Soft_SendByte(SlaveAddress+1);
@@ -177,7 +177,7 @@ int I2C_Soft_Single_Read(u8 SlaveAddress,u8 REG_Address)
 	  return REG_data;
 }	
 
-//¶à×Ö½Ú¶ÁÈ¡
+//å¤šå­—èŠ‚è¯»å–
 int I2C_Soft_Mult_Read(u8 SlaveAddress,u8 REG_Address,u8 * ptChar,u8 size)
 {
     uint8_t i;

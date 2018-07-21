@@ -8,7 +8,7 @@ GPIO_InitTypeDef   GPIO_InitStructure;
   //TIM_ICInitTypeDef  TIM_ICInitStructure;
 	//NVIC_InitTypeDef   NVIC_InitStructure;
 
-/*---------------------��ʱ��4-----------------------------*/
+/*---------------------定时器4-----------------------------*/
  /* RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE);
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE);
 	//GPIO_InitTypeDef         GPIO_InitStructure;
@@ -105,7 +105,7 @@ GPIO_InitTypeDef   GPIO_InitStructure;
 	TIM_ITConfig(TIM4, TIM_IT_CC3, ENABLE);
 	TIM_ITConfig(TIM4, TIM_IT_CC4, ENABLE);*/
 	
-/*---------------------��ʱ��5-----------------------------*/
+/*---------------------定时器5-----------------------------*/
  /* RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
 	
@@ -166,7 +166,7 @@ GPIO_InitTypeDef   GPIO_InitStructure;
 /*
 void TIM4_IRQHandler(void)		
 {
-	static u16 temp_cnt[4][2]={0};//    [xͨ��][0�����أ�1ʱ�䳤]
+	static u16 temp_cnt[4][2]={0};//    [x通道][0上升沿，1时间长]
 
 	if(TIM4->SR & TIM_IT_CC1) 
 	{
@@ -231,7 +231,7 @@ void TIM4_IRQHandler(void)
 
 void TIM5_IRQHandler(void)		
 {
-	static u16 temp_cnt[4][2]={0};//    [xͨ��][0�����أ�1ʱ�䳤]
+	static u16 temp_cnt[4][2]={0};//    [x通道][0上升沿，1时间长]
 
 	if(TIM5->SR & TIM_IT_CC1) 
 	{
@@ -312,13 +312,13 @@ void Get_PPM_Value(float T)
 		RC.CH_LAST[2] = RC.CH[2];
 		RC.CH_LAST[3] = RC.CH[3];
 		
-		//��ҡ�˺���  ��Χ+-660
+		//右摇杆横向  范围+-660
 		RC.CH[0] = my_deathzoom(RC_PPM_CH[1], 5);
-		//��ҡ������   ��Χ+-660
+		//右摇杆纵向   范围+-660
 		RC.CH[1] = my_deathzoom(RC_PPM_CH[3], 5);
-		//��ҡ�˺���   ��Χ+-660
+		//左摇杆横向   范围+-660
 		RC.CH[2] = my_deathzoom(RC_PPM_CH[0], 5);
-		//��ҡ������   ��Χ+-660
+		//左摇杆纵向   范围+-660
 		RC.CH[3] = RC_PPM_CH[2];
 	
 	  RC.CH[4] = RC_PPM_CH[4];

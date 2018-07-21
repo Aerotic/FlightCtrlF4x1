@@ -37,7 +37,7 @@ void Uart5_Config(void)
 		USART_Init(UART5,&USART_InitStructure);			
 		USART_Cmd(UART5,ENABLE);
 
-//GPS 波特率修改为115200
+//GPS 娉㈢壒鐜囦慨鏀逛负115200
 		DelayMs(100);
 		Uart5_SendChar(0xB5);
 		Uart5_SendChar(0x62);
@@ -80,7 +80,7 @@ void Uart5_Config(void)
 		USART_Init(UART5,&USART_InitStructure);			
 		USART_Cmd(UART5,ENABLE);
 
-//GPS 刷新频率10hz
+//GPS 鍒锋柊棰戠巼10hz
 		DelayMs(100);
 		Uart5_SendChar(0xB5);
 		Uart5_SendChar(0x62);

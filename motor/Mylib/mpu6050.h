@@ -31,14 +31,14 @@ struct _int16{
              };		
 
 struct _trans{
-       struct _int16 origin;      //Ô­Ê¼Öµ
-			 struct _float offset_max;  //ÁãÆ«Öµ×î´óÖµ
-			 struct _float offset_min;  //ÁãÆ«Öµ×îĞ¡Öµ	
-	     struct _float offset;      //ÁãÆ«Öµ 
-		   struct _float calibration; //Ğ£×¼Öµ
-	     struct _float filter;      //»¬¶¯Æ½¾ùÂË²¨Öµ
-	     struct _float dps;         //¶ÈÃ¿Ãë 
-	     struct _float radps;       //»¡¶ÈÃ¿Ãë
+       struct _int16 origin;      //åŸå§‹å€¼
+			 struct _float offset_max;  //é›¶åå€¼æœ€å¤§å€¼
+			 struct _float offset_min;  //é›¶åå€¼æœ€å°å€¼	
+	     struct _float offset;      //é›¶åå€¼ 
+		   struct _float calibration; //æ ¡å‡†å€¼
+	     struct _float filter;      //æ»‘åŠ¨å¹³å‡æ»¤æ³¢å€¼
+	     struct _float dps;         //åº¦æ¯ç§’ 
+	     struct _float radps;       //å¼§åº¦æ¯ç§’
               };
 
 struct _sensor{   
@@ -49,19 +49,19 @@ struct _sensor{
 extern struct _sensor sensor;
 
 
-//³õÊ¼»¯6050
+//åˆå§‹åŒ–6050
 void Mpu6050_Init(uint16_t sample_rate, uint16_t lpf);
-//¶ÁÈ¡¼ÓËÙ¶È
+//è¯»å–åŠ é€Ÿåº¦
 void Mpu6050_Read_Acc_Data(void);
-//¶ÁÈ¡½ÇËÙ¶È
+//è¯»å–è§’é€Ÿåº¦
 void Mpu6050_Read_Gyro_Data(void);
-//¶ÁÈ¡¼ÓËÙ¶ÈºÍ½ÇËÙ¶ÈÊı¾İ
+//è¯»å–åŠ é€Ÿåº¦å’Œè§’é€Ÿåº¦æ•°æ®
 void Mpu6050_Read(void);
-//¼ÓËÙ¶ÈÁãÆ«½ÃÕı
+//åŠ é€Ÿåº¦é›¶åçŸ«æ­£
 void Mpu6050_CalOffset_Acc(void);
-//ÍÓÂİÒÇÁãÆ«½ÃÕı
+//é™€èºä»ªé›¶åçŸ«æ­£
 void Mpu6050_CalOffset_Gyro(void);
-//mpu6050Êı¾İ×¼±¸
+//mpu6050æ•°æ®å‡†å¤‡
 void Mpu6050_Data_Prepare(void);
 
 

@@ -4,11 +4,11 @@
 #include "stm32f4xx.h"
 #include "stm32f4xx_conf.h"
 
-//#define PPM_RC          //PPM ½ÓÊÕ»ú
-#define SONAR_ENABLE		//ÉùÄÉ
-#define ESC_CORRECT     //µçµ÷Ð£×¼
+//#define PPM_RC          //PPM æŽ¥æ”¶æœº
+#define SONAR_ENABLE		//å£°çº³
+#define ESC_CORRECT     //ç”µè°ƒæ ¡å‡†
 
-/***************LED GPIO¶¨Òå******************/
+/***************LED GPIOå®šä¹‰******************/
 #define  RCC_LED           RCC_AHB1Periph_GPIOB
 #define  LED_PORT          GPIOB
 #define  LED_Pin_One       GPIO_Pin_6 
@@ -21,7 +21,7 @@
 #define  OUT_RED_Pin			 GPIO_Pin_6
 #define  OUT_GREEN_Pin		 GPIO_Pin_6
 
-/***************HCSR04 GPIO¶¨Òå******************/
+/***************HCSR04 GPIOå®šä¹‰******************/
 #define  RCC_HCSR04           			 	RCC_AHB1Periph_GPIOC
 #define  HCSR04_PORT          				GPIOC
 #define  TRIG_HCSR04_Pin      			 	GPIO_Pin_3 
@@ -29,18 +29,18 @@
 #define  EXTI_HCSR04_LINE     			 	EXTI_Line4
 #define  EXTI_HCSR04_CHANNEL  			  EXTI4_IRQn;
 
-/*************BUZZER GPIO¶¨Òå****************/
+/*************BUZZER GPIOå®šä¹‰****************/
 #define RCC_BUZZER	  RCC_AHB1Periph_GPIOB
 #define BUZZER_PORT   GPIOB
 #define BUZZER_Pin    GPIO_Pin_15
 
-/***************I2C GPIO¶¨Òå******************/
+/***************I2C GPIOå®šä¹‰******************/
 #define RCC_I2C	      RCC_AHB1Periph_GPIOB
 #define I2C_PORT      GPIOB
 #define I2C_Pin_SCL   GPIO_Pin_12
 #define I2C_Pin_SDA   GPIO_Pin_13
 
-/***************Ó²¼þÖÐ¶Ï·Ö×é******************/
+/***************ç¡¬ä»¶ä¸­æ–­åˆ†ç»„******************/
 #define NVIC_GROUP   NVIC_PriorityGroup_3
 
 #include "usart1.h"

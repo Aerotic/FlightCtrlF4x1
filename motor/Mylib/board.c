@@ -1,5 +1,5 @@
 #include "board.h"
-//�δ�ʱ���������� ,49������
+//滴答定时器计数变量 ,49天后溢出
 volatile uint32_t sysTickUptime=0;
 
 #define TICK_PER_SECOND 1000 
@@ -42,46 +42,46 @@ void DelayMs(uint32_t ms)
 
 void FlightController_board_Init(void)
 {
-		/*led��ʼ��*/
+		/*led初始化*/
 		Led_Init();
-		/*ģ��IIC��ʼ��*/
+		/*模拟IIC初始化*/
 //		I2C_Soft_Init();
 //		//LED_BLUE_ON;
-//		/*�жϷ���*/
+//		/*中断分组*/
 		NVIC_PriorityGroupConfig(NVIC_GROUP);
-		/*�δ�ʱ������*/
+		/*滴答定时器配置*/
 		SysTick_Configuration();
-//		/*��ȡ����*/
+//		/*读取参数*/
 //		Get_parameter();D
 		Android_Serialport_Config();
-//		/*��ʱ��3���� ����pwm���Ƶ��*/
+//		/*定时器3配置 产生pwm控制电机*/
 			TIM3_PWM_Init(400);
 //				Mpu6050_Init(1000,20);
 //				Mpu6050_CalOffset_Gyro();
 //			/*?????????*/
 //			Mpu6050_CalOffset_Acc();
-//		/*ʱ���ʼ��*/
+//		/*时间初始化*/
 //		Cycle_Time_Init();
-//		/*ms5611��ʼ��*/
+//		/*ms5611初始化*/
 //		MS5611_Init();
 //		MS5611_CalOffset();
-//		/*��ֱ������ٶȼ�ƫ���˲�*/
+//		/*竖直方向加速度计偏差滤波*/
 //		LPF2pSetCutoffFreq_1(100, 10);
-//		/*ˮƽx������ٶȼ�ƫ���˲�*/
+//		/*水平x方向加速度计偏差滤波*/
 //		LPF2pSetCutoffFreq_3(100, 10);
-//		/*ˮƽy������ٶȼ�ƫ���˲�*/
+//		/*水平y方向加速度计偏差滤波*/
 //		LPF2pSetCutoffFreq_4(100, 10);
-//		/*�ο�����ϵx������ٶȼ�ƫ���˲�*/
+//		/*参考坐标系x方向加速度计偏差滤波*/
 //		LPF2pSetCutoffFreq_5(100, 10);
-//		/*�ο�����ϵy������ٶȼ�ƫ���˲�*/
+//		/*参考坐标系y方向加速度计偏差滤波*/
 //		LPF2pSetCutoffFreq_6(100, 10);
 
-//		/*����1��ʼ��,��������*/
+//		/*串口1初始化,数据推送*/
 //	  //Usart1_Config();
 		Dbus_Configuration();
-		/*ָʾ��*/
+		/*指示灯*/
 		//LED_RED_OFF;
-		/*�ɻ���ʼ�����*/
+		/*飞机初始化完成*/
 		aircraft.init_ok=1;
 }
 

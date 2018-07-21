@@ -30,11 +30,11 @@ u8 MS5611_Read_Prom(void)
 void MS5611_Init(void)
 {
 	DelayMs(10);
-	//´«¸ÐÆ÷¸´Î»
+	//ä¼ æ„Ÿå™¨å¤ä½
 	MS5611_Reset();
 	DelayMs(3);
 	MS5611_Read_Prom();
-	//¿ªÊ¼¶ÁÈ¡ÎÂ¶È
+	//å¼€å§‹è¯»å–æ¸©åº¦
 	MS5611_Start_T();
 }
 
@@ -139,7 +139,7 @@ void MS5611_CalOffset(void)
 				tempms += ms5611.pressure;
     }
 				 
-		// 200´ÎÊý¾ÝÓÐÒ»¸öÒì³£,ÔÙ´ÎÐ£×¼
+		// 200æ¬¡æ•°æ®æœ‰ä¸€ä¸ªå¼‚å¸¸,å†æ¬¡æ ¡å‡†
 // 		 if(ms5611.baro_Offset_max-ms5611.baro_Offset_min>500)
 // 				MS5611_CalOffset();	 
 // 		 else

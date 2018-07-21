@@ -4,7 +4,7 @@ struct _throttle thr;
 
 /*
    name:void Control_Outer(float T)
-   function:×ËÌ¬Íâ»·¿ØÖÆ
+   function:å§¿æ€å¤–ç¯æ§åˆ¶
 */
 void Control_Outer(float T)
 {
@@ -16,41 +16,41 @@ void Control_Outer(float T)
 
 		ctrl.outer.exp.x = RC.CH[0]*MAX_CTRL_ANGLE/660;
 		ctrl.outer.exp.y = RC.CH[1]*MAX_CTRL_ANGLE/660;
-  /* µÃµ½½Ç¶ÈÎó²î */
+  /* å¾—åˆ°è§’åº¦è¯¯å·® */
 	ctrl.outer.err.x = ctrl.outer.exp.x - angle.roll ;
 	ctrl.outer.err.y = ctrl.outer.exp.y - angle.pitch ;
 	ctrl.outer.err.z = ctrl.outer.exp.z - angle.yaw ;
 	ctrl.outer.err.z = To_180_degrees(ctrl.outer.err.z);
-	/* ¼ÆËã½Ç¶ÈÎó²îÈ¨ÖØ */
+	/* è®¡ç®—è§’åº¦è¯¯å·®æƒé‡ */
 	ctrl.outer.err_weight.x = ABS(ctrl.outer.err.x)/ANGLE_TO_MAX_AS;
 	ctrl.outer.err_weight.y = ABS(ctrl.outer.err.y)/ANGLE_TO_MAX_AS;
 	ctrl.outer.err_weight.z = ABS(ctrl.outer.err.z)/ANGLE_TO_MAX_AS;
-	/* ½Ç¶ÈÎó²îÎ¢·Ö£¨¸úËæÎó²îÇúÏß±ä»¯£©*/
+	/* è§’åº¦è¯¯å·®å¾®åˆ†ï¼ˆè·Ÿéšè¯¯å·®æ›²çº¿å˜åŒ–ï¼‰*/
 	ctrl.outer.err_dif.x = 10 *parameter.outer.rol.kd *(- angle.roll  - ctrl.outer.err_last.x + RC.CH_DIF[0]*T*MAX_CTRL_ANGLE/600) *( 0.005f/T ) *( 0.65f + 0.35f *ctrl.outer.err_weight.x );
 	ctrl.outer.err_dif.y = 10 *parameter.outer.pit.kd *(- angle.pitch - ctrl.outer.err_last.y + RC.CH_DIF[1]*T*MAX_CTRL_ANGLE/600) *( 0.005f/T ) *( 0.65f + 0.35f *ctrl.outer.err_weight.y );
 	ctrl.outer.err_dif.z = 10 *parameter.outer.yaw.kd *(ctrl.outer.err.z - ctrl.outer.err_last.z ) *( 0.005f/T ) *( 0.65f + 0.35f *ctrl.outer.err_weight.z );
 	
-  /* ½Ç¶ÈÎó²î»ı·Ö */
+  /* è§’åº¦è¯¯å·®ç§¯åˆ† */
 	ctrl.outer.err_inc.x += parameter.outer.rol.ki *ctrl.outer.err.x *T;
 	ctrl.outer.err_inc.y += parameter.outer.pit.ki *ctrl.outer.err.y *T;
 	ctrl.outer.err_inc.z += parameter.outer.yaw.ki *ctrl.outer.err.z *T;
-	/* ½Ç¶ÈÎó²î»ı·Ö·ÖÀë */
+	/* è§’åº¦è¯¯å·®ç§¯åˆ†åˆ†ç¦» */
 	ctrl.outer.eliminate_i.x = thr.weight *CTRL_OUTER_INC_LIMIT;
 	ctrl.outer.eliminate_i.y = thr.weight *CTRL_OUTER_INC_LIMIT;
 	ctrl.outer.eliminate_i.z = thr.weight *CTRL_OUTER_INC_LIMIT;
-	/* ½Ç¶ÈÎó²î»ı·ÖÏŞ·ù */
+	/* è§’åº¦è¯¯å·®ç§¯åˆ†é™å¹… */
 	ctrl.outer.err_inc.x = LIMIT( ctrl.outer.err_inc.x, -ctrl.outer.eliminate_i.x ,ctrl.outer.eliminate_i.x );
 	ctrl.outer.err_inc.y = LIMIT( ctrl.outer.err_inc.y, -ctrl.outer.eliminate_i.y ,ctrl.outer.eliminate_i.y );
 	ctrl.outer.err_inc.z = LIMIT( ctrl.outer.err_inc.z, -ctrl.outer.eliminate_i.z ,ctrl.outer.eliminate_i.z );
-	/* ¶ÔÓÃÓÚ¼ÆËã±ÈÀıÏîÊä³öµÄ½Ç¶ÈÎó²îÏŞ·ù */
+	/* å¯¹ç”¨äºè®¡ç®—æ¯”ä¾‹é¡¹è¾“å‡ºçš„è§’åº¦è¯¯å·®é™å¹… */
 	ctrl.outer.err.x = LIMIT( ctrl.outer.err.x, -90, 90 );
 	ctrl.outer.err.y = LIMIT( ctrl.outer.err.y, -90, 90 );
 	ctrl.outer.err.z = LIMIT( ctrl.outer.err.z, -90, 90 );
-	/* ½Ç¶ÈPIDÊä³ö */
+	/* è§’åº¦PIDè¾“å‡º */
 	ctrl.outer.out.x = parameter.outer.rol.kp *( ctrl.outer.err.x + ctrl.outer.err_dif.x + ctrl.outer.err_inc.x );
 	ctrl.outer.out.y = parameter.outer.pit.kp *( ctrl.outer.err.y + ctrl.outer.err_dif.y + ctrl.outer.err_inc.y );
 	ctrl.outer.out.z = parameter.outer.yaw.kp *( ctrl.outer.err.z + ctrl.outer.err_dif.z + ctrl.outer.err_inc.z );
-	/* ¼ÇÂ¼ÀúÊ·Êı¾İ */	
+	/* è®°å½•å†å²æ•°æ® */	
 	ctrl.outer.err_last.x = - angle.roll;
 	ctrl.outer.err_last.y = - angle.pitch;
 	ctrl.outer.err_last.z = - angle.yaw;
@@ -58,83 +58,83 @@ void Control_Outer(float T)
 
 /*
    name:void Control_Inner(float T)
-   function:×ËÌ¬ÄÚ»·¿ØÖÆ
+   function:å§¿æ€å†…ç¯æ§åˆ¶
 */
 void Control_Inner(float T)
 {
-	/* ¸øÆÚÍû£¨Ä¿±ê£©½ÇËÙ¶È */
+	/* ç»™æœŸæœ›ï¼ˆç›®æ ‡ï¼‰è§’é€Ÿåº¦ */
 	ctrl.inner.exp.x = MAX_CTRL_ASPEED *(ctrl.outer.out.x/ANGLE_TO_MAX_AS);
 	ctrl.inner.exp.y = MAX_CTRL_ASPEED *(ctrl.outer.out.y/ANGLE_TO_MAX_AS);
 	ctrl.inner.exp.z = MAX_CTRL_ASPEED *(ctrl.outer.out.z/ANGLE_TO_MAX_AS);
 	
-	/* ÆÚÍû½ÇËÙ¶ÈÏŞ·ù */
+	/* æœŸæœ›è§’é€Ÿåº¦é™å¹… */
 	ctrl.inner.exp.x = LIMIT(ctrl.inner.exp.x, -MAX_CTRL_ASPEED,MAX_CTRL_ASPEED );
 	ctrl.inner.exp.y = LIMIT(ctrl.inner.exp.y, -MAX_CTRL_ASPEED,MAX_CTRL_ASPEED );
 	ctrl.inner.exp.z = LIMIT(ctrl.inner.exp.z, -MAX_CTRL_ASPEED,MAX_CTRL_ASPEED );
-	/* ½ÇËÙ¶ÈÎó²î */
+	/* è§’é€Ÿåº¦è¯¯å·® */
 	ctrl.inner.err.x =  ctrl.inner.exp.x - phone.gyro_dps[0] ;
 	ctrl.inner.err.y =  ctrl.inner.exp.y - phone.gyro_dps[1] ;
 	ctrl.inner.err.z =  ctrl.inner.exp.z - phone.gyro_dps[2] ;
-	/* ½ÇËÙ¶ÈÎó²îÈ¨ÖØ */
+	/* è§’é€Ÿåº¦è¯¯å·®æƒé‡ */
 	ctrl.inner.err_weight.x = ABS(ctrl.inner.err.x)/MAX_CTRL_ASPEED;
 	ctrl.inner.err_weight.y = ABS(ctrl.inner.err.y)/MAX_CTRL_ASPEED;
 	ctrl.inner.err_weight.z = ABS(ctrl.inner.err.z)/MAX_CTRL_YAW_SPEED;
-	/* ½ÇËÙ¶ÈÎ¢·Ö */
+	/* è§’é€Ÿåº¦å¾®åˆ† */
 	ctrl.inner.err_dif.x = -parameter.inner.rol.kd * ( phone.gyro_dps[0] - ctrl.inner.err_last.x)/T;
 	ctrl.inner.err_dif.y = -parameter.inner.pit.kd * ( phone.gyro_dps[1] - ctrl.inner.err_last.y)/T;
 	ctrl.inner.err_dif.z = -parameter.inner.yaw.kd * ( phone.gyro_dps[2] - ctrl.inner.err_last.z)/T;
-	/* ½ÇËÙ¶ÈÎó²î»ı·Ö */
+	/* è§’é€Ÿåº¦è¯¯å·®ç§¯åˆ† */
 	ctrl.inner.err_inc.x += parameter.inner.rol.ki *(ctrl.inner.err.x - ctrl.inner.err_dif.x) *T;
 	ctrl.inner.err_inc.y += parameter.inner.pit.ki *(ctrl.inner.err.y - ctrl.inner.err_dif.y) *T;
 	ctrl.inner.err_inc.z += parameter.inner.yaw.ki *(ctrl.inner.err.z - ctrl.inner.err_dif.z) *T;
-	/* ½ÇËÙ¶ÈÎó²î»ı·Ö·ÖÀë */
+	/* è§’é€Ÿåº¦è¯¯å·®ç§¯åˆ†åˆ†ç¦» */
 	ctrl.inner.eliminate_i.x = thr.weight *CTRL_INNER_INC_LIMIT ;
 	ctrl.inner.eliminate_i.y = thr.weight *CTRL_INNER_INC_LIMIT ;
 	ctrl.inner.eliminate_i.z = thr.weight *CTRL_INNER_INC_LIMIT ;
-	/* ½ÇËÙ¶ÈÎó²î»ı·ÖÏŞ·ù */
+	/* è§’é€Ÿåº¦è¯¯å·®ç§¯åˆ†é™å¹… */
 	ctrl.inner.err_inc.x = LIMIT( ctrl.inner.err_inc.x, -ctrl.inner.eliminate_i.x,ctrl.inner.eliminate_i.x );
 	ctrl.inner.err_inc.y = LIMIT( ctrl.inner.err_inc.y, -ctrl.inner.eliminate_i.y,ctrl.inner.eliminate_i.y );
 	ctrl.inner.err_inc.z = LIMIT( ctrl.inner.err_inc.z, -ctrl.inner.eliminate_i.z,ctrl.inner.eliminate_i.z );
-	/* ½ÇËÙ¶ÈPIDÊä³ö */
+	/* è§’é€Ÿåº¦PIDè¾“å‡º */
 	ctrl.inner.out.x = 3 *( ctrl.inner.FB *LIMIT((0.45f + 0.55f*ctrl.inner.err_weight.x),0,1)*ctrl.outer.exp.x + ( 1 - ctrl.inner.FB ) *parameter.inner.rol.kp *( ctrl.inner.err.x + ctrl.inner.err_dif.x + ctrl.inner.err_inc.x ) );
 										
 	ctrl.inner.out.y = 3 *( ctrl.inner.FB *LIMIT((0.45f + 0.55f*ctrl.inner.err_weight.y),0,1)*ctrl.outer.exp.y + ( 1 - ctrl.inner.FB ) *parameter.inner.pit.kp *( ctrl.inner.err.y + ctrl.inner.err_dif.y + ctrl.inner.err_inc.y ) );
 						
 	ctrl.inner.out.z = 3 *( ctrl.inner.FB *LIMIT((0.45f + 0.55f*ctrl.inner.err_weight.z),0,1)*ctrl.outer.exp.z + ( 1 - ctrl.inner.FB ) *parameter.inner.yaw.kp *( ctrl.inner.err.z + ctrl.inner.err_dif.z + ctrl.inner.err_inc.z ) );
 	
-	/* ÄÚ»·Êä³öÏŞ·ù */
+	/* å†…ç¯è¾“å‡ºé™å¹… */
 	ctrl.inner.out.x = LIMIT(ctrl.inner.out.x,-MAX_INNER_OUT,MAX_INNER_OUT);
 	ctrl.inner.out.y = LIMIT(ctrl.inner.out.y,-MAX_INNER_OUT,MAX_INNER_OUT);
 	ctrl.inner.out.z = LIMIT(ctrl.inner.out.z,-MAX_INNER_OUT,MAX_INNER_OUT);
 	
-	/* ¼ÇÂ¼ÀúÊ·Êı¾İ */
+	/* è®°å½•å†å²æ•°æ® */
 	ctrl.inner.err_last.x =  phone.gyro_dps[0] ;
 	ctrl.inner.err_last.y =  phone.gyro_dps[1] ;
 	ctrl.inner.err_last.z =  phone.gyro_dps[2] ;
 	
-	/* ÓÍÃÅ¿ØÖÆ */
+	/* æ²¹é—¨æ§åˆ¶ */
 	Thr_Control(T);
 }
 
 /*
    name:void Thr_Control(float T)
-   function:Ò£¿ØÆ÷¿ØÖÆÓÍÃÅ
+   function:é¥æ§å™¨æ§åˆ¶æ²¹é—¨
 */
 void Thr_Control(float T)
 {
-	/* ·É»úÒÑ¾­½âËø */
+	/* é£æœºå·²ç»è§£é” */
 	if(aircraft.unlock)
 		{
 			thr.value = 0.6061*RC.CH[3]+500;
 			thr.value = LIMIT(thr.value, READY_THR, MAX_THR);
 		}
 		
-  /* ·É»úÉÏËøÓÍÃÅÎª0 */
+  /* é£æœºä¸Šé”æ²¹é—¨ä¸º0 */
 	else thr.value = 0;
 	
-	/* ÓÍÃÅµÍÍ¨ÂË²¨ */
+	/* æ²¹é—¨ä½é€šæ»¤æ³¢ */
 	thr.lpf += 10 *3.14f *T *(thr.value/400.0f - thr.lpf);
 		
-	/* ÓÍÃÅÈ¨ÖØ£¬ÓÃÓÚ½Ç¶ÈÎó²î»ı·Ö·ÖÀë */
+	/* æ²¹é—¨æƒé‡ï¼Œç”¨äºè§’åº¦è¯¯å·®ç§¯åˆ†åˆ†ç¦» */
 	thr.weight = LIMIT(thr.lpf,0,1);    
 }

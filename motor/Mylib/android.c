@@ -1,3 +1,7 @@
+/**
+***Author:Aero
+***Created in 2018 Aprl
+**/
 #include "android.h"
 #define RadToDeg 57.295779
 struct _RC RC;

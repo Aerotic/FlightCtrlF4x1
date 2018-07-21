@@ -15,18 +15,18 @@ u16 FindStr(u8 *str,u8 *ptr)
 	u8 *MTemp=NULL;
 	if(0==str||0==ptr)
 		return 0;
-	for(STemp=str;*STemp!='\0';STemp++)	 //ÒÀ´Î²éÕÒ×Ö·û´®
+	for(STemp=str;*STemp!='\0';STemp++)	 //ä¾æ¬¡æŸ¥æ‰¾å­—ç¬¦ä¸²
 	{
-		index++;  //µ±Ç°Æ«ÒÆÁ¿¼Ó1
-		MTemp=STemp; //Ö¸Ïòµ±Ç°×Ö·û´®
-		//±È½Ï
+		index++;  //å½“å‰åç§»é‡åŠ 1
+		MTemp=STemp; //æŒ‡å‘å½“å‰å­—ç¬¦ä¸²
+		//æ¯”è¾ƒ
 		for(PTemp=ptr;*PTemp!='\0';PTemp++)
 		{	
 			if(*PTemp!=*MTemp)
 			break;
 			MTemp++;
 		}
-		if(*PTemp=='\0')  //³öÏÖÁËËù²éÕÒµÄ×Ö·û´®£¬ÍË³ö
+		if(*PTemp=='\0')  //å‡ºç°äº†æ‰€æŸ¥æ‰¾çš„å­—ç¬¦ä¸²ï¼Œé€€å‡º
 			break;
 	}
 	return index;
@@ -34,22 +34,22 @@ u16 FindStr(u8 *str,u8 *ptr)
 
 void GPSParse(void)
 {
- 	u8 CommaNum=0; //¶ººÅÊı
-	u8 BufIndex=0; //Êı×ÖÁ¿
+ 	u8 CommaNum=0; //é€—å·æ•°
+	u8 BufIndex=0; //æ•°å­—é‡
  	u8 Sbuf;
 	u8 *Pstr;
 	u16 index;
-	index= FindStr(gps_rx_buffer,"$GNRMC,");//²éÕÒ
+	index= FindStr(gps_rx_buffer,"$GNRMC,");//æŸ¥æ‰¾
 	if(index)
 	{
 		CommaNum=0;
-		Pstr=gps_rx_buffer+index+6;	 //ÕÒµ½GPRMC,ºóÃæµÄµØÖ·
+		Pstr=gps_rx_buffer+index+6;	 //æ‰¾åˆ°GPRMC,åé¢çš„åœ°å€
 		do
 		{
 			Sbuf=*Pstr++;	
 			switch(Sbuf)
 			{
-				case ',':CommaNum++;  //Í¨¹ı¶ººÅµÄÊıÄ¿À´½øĞĞ×´Ì¬·ÖÀà
+				case ',':CommaNum++;  //é€šè¿‡é€—å·çš„æ•°ç›®æ¥è¿›è¡ŒçŠ¶æ€åˆ†ç±»
 						 BufIndex=0;
 						 break;
 				default:
@@ -81,7 +81,7 @@ double LatToRad(void)
 	Rad=(GpsInfo.Latitude[2]-0x30)*10+(GpsInfo.Latitude[3]-0x30)+(GpsInfo.Latitude[5]-0x30)*0.1+(GpsInfo.Latitude[6]-0x30)*0.01+(GpsInfo.Latitude[7]-0x30)*0.001+(GpsInfo.Latitude[8]-0x30)*0.0001+(GpsInfo.Latitude[9]-0x30)*0.00001;
 	Rad=Rad/60;
 	Rad=Rad+Data;
-	return Rad;			//xx¶È
+	return Rad;			//xxåº¦
 }
  
 double LonToRad(void)
@@ -92,7 +92,7 @@ double LonToRad(void)
 	Rad=(GpsInfo.Longitude[3]-0x30)*10+(GpsInfo.Longitude[4]-0x30)+(GpsInfo.Longitude[6]-0x30)*0.1+(GpsInfo.Longitude[7]-0x30)*0.01+(GpsInfo.Longitude[8]-0x30)*0.001+(GpsInfo.Longitude[9]-0x30)*0.0001+(GpsInfo.Longitude[10]-0x30)*0.00001;
 	Rad=Rad/60;
 	Rad=Rad+Data;
-	return Rad;			//xx¶È
+	return Rad;			//xxåº¦
 }
 
 double GetSpeed(void)
@@ -115,7 +115,7 @@ double GetSpeed(void)
 			case 4:speed=speed/10.0f;break;
       default:break;
   }
-	speed = speed*185.2f/3.6f;//ÀåÃ×Ã¿Ãë
+	speed = speed*185.2f/3.6f;//å˜ç±³æ¯ç§’
 	return speed;
 }
 
@@ -149,16 +149,16 @@ void GPS_Read(void)
   GPSParse();
 	gps.lat = LatToRad();
 	gps.lon = LonToRad();
-	gps.speed = GetSpeed();//µØÃæËÙÂÊ
-	gps.azimuth = GetAzimuth();//µØÃæº½Ïò ±±0 ¶«90 Î÷-90
+	gps.speed = GetSpeed();//åœ°é¢é€Ÿç‡
+	gps.azimuth = GetAzimuth();//åœ°é¢èˆªå‘ åŒ—0 ä¸œ90 è¥¿-90
 	
 	gps.latvel = gps.speed*cos(gps.azimuth/57.3f);
 	gps.lonvel = gps.speed*sin(gps.azimuth/57.3f);
 	
-	if(GpsInfo.Statue == 'A' && gps.homeisok)//ÓĞĞ§¶¨Î»£¬homeÒÑ¾­È·¶¨
+	if(GpsInfo.Statue == 'A' && gps.homeisok)//æœ‰æ•ˆå®šä½ï¼Œhomeå·²ç»ç¡®å®š
 	{
-			gps.rellat = gps.lat - gps.homelat;//Ïà¶ÔÓÚhomeµÄÎ³¶È£¬±±ÕıÄÏ¸º
-			gps.rellon = gps.lon - gps.homelon;//Ïà¶ÔÓÚhomeµÄ¾­¶È£¬¶«ÕıÎ÷¸º
+			gps.rellat = gps.lat - gps.homelat;//ç›¸å¯¹äºhomeçš„çº¬åº¦ï¼ŒåŒ—æ­£å—è´Ÿ
+			gps.rellon = gps.lon - gps.homelon;//ç›¸å¯¹äºhomeçš„ç»åº¦ï¼Œä¸œæ­£è¥¿è´Ÿ
 			LED_BLUE_ON;
 	}
 	else 
@@ -166,49 +166,49 @@ void GPS_Read(void)
 	
 	if(gps.lat!=0 && gps.lon!=0 && GpsInfo.Statue == 'A' && !gps.homeisok)
 	{
-			gps.homelat = gps.lat;//homeÎ³¶È
-			gps.homelon = gps.lon;//home¾­¶È
-			gps.homeisok = 1;//homeÒÑ¾­È·¶¨
+			gps.homelat = gps.lat;//homeçº¬åº¦
+			gps.homelon = gps.lon;//homeç»åº¦
+			gps.homeisok = 1;//homeå·²ç»ç¡®å®š
   }
 }
 
 double posx_dis_cm_buff[30];
 double posy_dis_cm_buff[30];
 
-extern float ux, uy, uz;//(rÏµµ½bÏµµÄµÚÒ»ÁĞ)
-extern float wx, wy, wz;//(rÏµµ½bÏµµÄµÚ¶şÁĞ)
-extern float vx, vy, vz;//(rÏµµ½bÏµµÄµÚÈıÁĞ)
+extern float ux, uy, uz;//(rç³»åˆ°bç³»çš„ç¬¬ä¸€åˆ—)
+extern float wx, wy, wz;//(rç³»åˆ°bç³»çš„ç¬¬äºŒåˆ—)
+extern float vx, vy, vz;//(rç³»åˆ°bç³»çš„ç¬¬ä¸‰åˆ—)
 
 void Update_GPS_states(float T)
 {
-	  /*¶¨Òå²Î¿¼×ø±êÏµµÄ¼ÓËÙ¶È£¬»úÌå×ø±êÏµµÄ¼ÓËÙ¶È*/
+	  /*å®šä¹‰å‚è€ƒåæ ‡ç³»çš„åŠ é€Ÿåº¦ï¼Œæœºä½“åæ ‡ç³»çš„åŠ é€Ÿåº¦*/
 	  float accx_ef = 0,accy_ef = 0; 
 	  float accx_bf = 0,accy_bf = 0;
 	
-		/*¾­Î³¶È×ª³É¾àÀë£¨ÀåÃ×£©*/
+		/*ç»çº¬åº¦è½¬æˆè·ç¦»ï¼ˆå˜ç±³ï¼‰*/
 		xy_ef.posx.dis_cm = gps.rellon *LATLON_TO_CM *cos(gps.lat/57.3f);
 	  xy_ef.posy.dis_cm = gps.rellat *LATLON_TO_CM;
 
-		/*¾àÀë£¨ÀåÃ×£©·ÅÈëÊı×é*/
+		/*è·ç¦»ï¼ˆå˜ç±³ï¼‰æ”¾å…¥æ•°ç»„*/
 		Push_Pos_Dis(xy_ef.posx.dis_cm , xy_ef.posy.dis_cm);
 
-    /*¾àÀëÎ¢·Ö*/
+    /*è·ç¦»å¾®åˆ†*/
 		xy_ef.posx.dif = (xy_ef.posx.dis_cm - posx_dis_cm_buff[29])/(29*T);
 		xy_ef.posy.dif = (xy_ef.posy.dis_cm - posy_dis_cm_buff[29])/(29*T);
 	
-		/*²Î¿¼×ø±êÏµµÄ¼ÓËÙ¶È£¨²Î¿¼×ø±êÏµµÄ¼ÓËÙ¶È£¬»úÍ·Ä¬ÈÏ±±·½£¬ÕâÀïµÄ±±·½²»ÊÇ¾ø¶ÔµÄ±±·½£©*/
-		accy_ef = (sensor.acc.filter.x*ux + sensor.acc.filter.y*uy + sensor.acc.filter.z*uz)*980.0f/4096.0f; //±±ÕıÄÏ¸º
-		accx_ef = -(sensor.acc.filter.x*wx + sensor.acc.filter.y*wy + sensor.acc.filter.z*wz)*980.0f/4096.0f; //¶«ÕıÎ÷¸º	 
+		/*å‚è€ƒåæ ‡ç³»çš„åŠ é€Ÿåº¦ï¼ˆå‚è€ƒåæ ‡ç³»çš„åŠ é€Ÿåº¦ï¼Œæœºå¤´é»˜è®¤åŒ—æ–¹ï¼Œè¿™é‡Œçš„åŒ—æ–¹ä¸æ˜¯ç»å¯¹çš„åŒ—æ–¹ï¼‰*/
+		accy_ef = (sensor.acc.filter.x*ux + sensor.acc.filter.y*uy + sensor.acc.filter.z*uz)*980.0f/4096.0f; //åŒ—æ­£å—è´Ÿ
+		accx_ef = -(sensor.acc.filter.x*wx + sensor.acc.filter.y*wy + sensor.acc.filter.z*wz)*980.0f/4096.0f; //ä¸œæ­£è¥¿è´Ÿ	 
 		
-		/*·É»ú¼ÓËÙ¶È£¬»úÍ··½ÏòÎªy£¬ÓÒ·½Îªx*/    /*Ë®Æ½·½Ïò¼ÓËÙ¶È×´Ì¬*/
-		accx_bf =  accx_ef * cos(angle.yaw/57.3f) + accy_ef * sin(angle.yaw/57.3f);//ÓÒÕı×ó¸º
-		accy_bf = -accx_ef * sin(angle.yaw/57.3f) + accy_ef * cos(angle.yaw/57.3f);//Ç°Õıºó¸º	
+		/*é£æœºåŠ é€Ÿåº¦ï¼Œæœºå¤´æ–¹å‘ä¸ºyï¼Œå³æ–¹ä¸ºx*/    /*æ°´å¹³æ–¹å‘åŠ é€Ÿåº¦çŠ¶æ€*/
+		accx_bf =  accx_ef * cos(angle.yaw/57.3f) + accy_ef * sin(angle.yaw/57.3f);//å³æ­£å·¦è´Ÿ
+		accy_bf = -accx_ef * sin(angle.yaw/57.3f) + accy_ef * cos(angle.yaw/57.3f);//å‰æ­£åè´Ÿ	
 		
-		/*µÃµ½µØÇò×ø±êÏµ£¨earth frame£©ÏÂµÄË®Æ½¼ÓËÙ¶È*/    /*Ë®Æ½·½Ïò¼ÓËÙ¶È×´Ì¬*/
-		xy_ef.accx.base = accx_bf * cos(mag.heading_filter/57.3f) - accy_bf * sin(mag.heading_filter/57.3f);//¶«ÕıÎ÷¸º
-	  xy_ef.accy.base = accx_bf * sin(mag.heading_filter/57.3f) + accy_bf * cos(mag.heading_filter/57.3f);//±±ÕıÄÏ¸º
+		/*å¾—åˆ°åœ°çƒåæ ‡ç³»ï¼ˆearth frameï¼‰ä¸‹çš„æ°´å¹³åŠ é€Ÿåº¦*/    /*æ°´å¹³æ–¹å‘åŠ é€Ÿåº¦çŠ¶æ€*/
+		xy_ef.accx.base = accx_bf * cos(mag.heading_filter/57.3f) - accy_bf * sin(mag.heading_filter/57.3f);//ä¸œæ­£è¥¿è´Ÿ
+	  xy_ef.accy.base = accx_bf * sin(mag.heading_filter/57.3f) + accy_bf * cos(mag.heading_filter/57.3f);//åŒ—æ­£å—è´Ÿ
 
-		/*»¥²¹ÂË²¨ËÙ¶È¸üĞÂ*/
+		/*äº’è¡¥æ»¤æ³¢é€Ÿåº¦æ›´æ–°*/
 		xy_ef.velx.base = FILTER_K1 * xy_ef.posx.dif+ (1-FILTER_K1) * (xy_ef.velx.base + xy_ef.accx.base * T);
 		xy_ef.vely.base = FILTER_K1 * xy_ef.posy.dif+ (1-FILTER_K1) * (xy_ef.vely.base + xy_ef.accy.base * T);
 }
@@ -244,7 +244,7 @@ void Update_Leader_State(float T)
 	
 	  if(RADIO_RX_DATA[0] == 0x88 && RADIO_RX_DATA[1] == 0xA1)
 		{	
-			  /*×îÖÕÆÚÍûÎ»ÖÃ¸üĞÂ*/
+			  /*æœ€ç»ˆæœŸæœ›ä½ç½®æ›´æ–°*/
 			  switch(RADIO_RX_DATA[23])
 				{
 						case 1:Follower_position_exp_x=0;Follower_position_exp_y=0;break;
@@ -252,7 +252,7 @@ void Update_Leader_State(float T)
 						case 3:Follower_position_exp_x=2000;Follower_position_exp_y=-4000;break;
 						default:Follower_position_exp_x=0;Follower_position_exp_y=0;break;
 				}
-				/*µ±Ç°¹ì¼£Î»ÖÃ¸üĞÂ£¬50msÖ´ĞĞ1´Î£º¶ÔÓ¦2m/s*/
+				/*å½“å‰è½¨è¿¹ä½ç½®æ›´æ–°ï¼Œ50msæ‰§è¡Œ1æ¬¡ï¼šå¯¹åº”2m/s*/
 				if(Follower_position_tra_x>Follower_position_exp_x)
 					 Follower_position_tra_x-=10;
 				else if(Follower_position_tra_x<Follower_position_exp_x)
@@ -263,7 +263,7 @@ void Update_Leader_State(float T)
 				else if(Follower_position_tra_y<Follower_position_exp_y)
 					 Follower_position_tra_y+=10;
 			
-				/*±ê¶¨Î»ÖÃ*/
+				/*æ ‡å®šä½ç½®*/
 				gpslevelcon.pos_x.rc += (RC.CH[0]*MAX_GPS_SPEED/660 * T * cos(mag.heading_filter/57.3f) - RC.CH[1]*MAX_GPS_SPEED/660 * T * sin(mag.heading_filter/57.3f));
 			  gpslevelcon.pos_y.rc += (RC.CH[1]*MAX_GPS_SPEED/660 * T * cos(mag.heading_filter/57.3f) + RC.CH[0]*MAX_GPS_SPEED/660 * T * sin(mag.heading_filter/57.3f));			
 				
@@ -273,10 +273,10 @@ void Update_Leader_State(float T)
 				gps.leader_lon=(double)((RADIO_RX_DATA[7] << 24) | (RADIO_RX_DATA[8] << 16) | (RADIO_RX_DATA[9] << 8) | RADIO_RX_DATA[10])/10000000.0;
 				gpslevelcon.pos_x.exp = (gps.leader_lon - gps.homelon)*LATLON_TO_CM *cos((gps.lat)/57.3f) - gps.disx_cm_to_leader + Follower_position_tra_x + gpslevelcon.pos_x.rc;
 
-//leaderµÄ¸ß¶È
+//leaderçš„é«˜åº¦
 			  gps.leader_hight = (RADIO_RX_DATA[11] << 8) | RADIO_RX_DATA[12];
 				if(gps.leader_hight>0x7fff) gps.leader_hight-=0xffff;
-//leaderµÄ×ËÌ¬			
+//leaderçš„å§¿æ€			
 			  gps.leader_pitch = (RADIO_RX_DATA[13] << 8) | RADIO_RX_DATA[14];
 				gps.leader_roll = (RADIO_RX_DATA[15] << 8) | RADIO_RX_DATA[16];
 				gps.leader_yaw = (RADIO_RX_DATA[17] << 8) | RADIO_RX_DATA[18];
@@ -289,7 +289,7 @@ void Update_Leader_State(float T)
  			  gps.leader_roll = LIMIT(gps.leader_roll/10.0f,-20,20);
 				gps.leader_yaw = LIMIT(gps.leader_yaw/10.0f,-180,180);
 
-//leaderµÄËÙ¶È
+//leaderçš„é€Ÿåº¦
 				gps.leader_lonvel = (RADIO_RX_DATA[19] << 8) | RADIO_RX_DATA[20];
 			  gps.leader_latvel = (RADIO_RX_DATA[21] << 8) | RADIO_RX_DATA[22];
 			
@@ -307,7 +307,7 @@ void GPSlevel_Velocity_Control(float T)
 	  float vely_ef_diff = LPF2pApply_6(xy_ef.accy.base);
 		if(RC.CH[5]==1||RC.CH[5]==2)
 		{
-			if(RC.CH[5]==2)//¶¨µãÄ£Ê½ÏÂleaderµÄ×ËÌ¬ºÍËÙ¶ÈÖÃ0
+			if(RC.CH[5]==2)//å®šç‚¹æ¨¡å¼ä¸‹leaderçš„å§¿æ€å’Œé€Ÿåº¦ç½®0
 			{
 				gps.leader_pitch = 0;
 				gps.leader_roll = 0;
@@ -328,7 +328,7 @@ void GPSlevel_Velocity_Control(float T)
 			gpslevelcon.vel_y.out = gpslevelcon.vel_y.out_p + gpslevelcon.vel_y.out_d;
 			gpslevelcon.vel_y.out = LIMIT(gpslevelcon.vel_y.out , -15.0f , 15.0f);
 			
-			/*ÔÚ²Î¿¼×ø±êÏµÏÂ×öPID£¬½«Êä³ö½á¹û×ªµ½»úÌå×ø±êÏµ¡£mag.heading_filterÒÔ±±Îª0£¬Ïò×óĞı×ªÎªÕı£¬´Ë´¦µÄ0.4fÎªleaderµÄ×ËÌ¬Ç°À¡ÏµÊı*/
+			/*åœ¨å‚è€ƒåæ ‡ç³»ä¸‹åšPIDï¼Œå°†è¾“å‡ºç»“æœè½¬åˆ°æœºä½“åæ ‡ç³»ã€‚mag.heading_filterä»¥åŒ—ä¸º0ï¼Œå‘å·¦æ—‹è½¬ä¸ºæ­£ï¼Œæ­¤å¤„çš„0.4fä¸ºleaderçš„å§¿æ€å‰é¦ˆç³»æ•°*/
 			gpslevelcon.PITCH_OUT = gps.leader_pitch*0.6f-gpslevelcon.vel_x.out*sin(mag.heading_filter/57.3f) + gpslevelcon.vel_y.out*cos(mag.heading_filter/57.3f);
 			gpslevelcon.ROLL_OUT = gps.leader_roll*0.6f+gpslevelcon.vel_x.out*cos(mag.heading_filter/57.3f) + gpslevelcon.vel_y.out*sin(mag.heading_filter/57.3f);
 		
@@ -347,33 +347,33 @@ void GPSlevel_Velocity_Control(float T)
 
 void GPSlevel_Position_Control(float T)
 {
-		/*¶¨µãÄ£Ê½·¢Éú±ä»¯*/
+		/*å®šç‚¹æ¨¡å¼å‘ç”Ÿå˜åŒ–*/
     if(RC.CH[5]!=RC.CH_LAST[5])
 		{  
-       if(RC.CH[5]==2)  //¶¨µãÄ£Ê½,¶¨ÔÚµ±Ç°Î»ÖÃ
+       if(RC.CH[5]==2)  //å®šç‚¹æ¨¡å¼,å®šåœ¨å½“å‰ä½ç½®
 			 { 
 				gpslevelcon.pos_x.exp = xy_ef.posx.dis_cm;
 				gpslevelcon.pos_y.exp = xy_ef.posy.dis_cm;
 			 }
-			 if(RC.CH[5]==1)  //¸úËæÄ£Ê½£¬¼ÆËãÓëleaderÖ®¼äµÄ¾àÀë
+			 if(RC.CH[5]==1)  //è·Ÿéšæ¨¡å¼ï¼Œè®¡ç®—ä¸leaderä¹‹é—´çš„è·ç¦»
 			 {
 				Cal_Distance_to_Leader();
        }
     }	  
-		if(RC.CH[5]==1)//¸úËæÄ£Ê½ÏÂ£¬¸üĞÂleader×´Ì¬
+		if(RC.CH[5]==1)//è·Ÿéšæ¨¡å¼ä¸‹ï¼Œæ›´æ–°leaderçŠ¶æ€
 		{
 			Update_Leader_State(T);
     }
 		if(RC.CH[5]==1||RC.CH[5]==2)
 		{
-			/*ÓÉÒ£¿ØÆ÷²Ù×÷²úÉúµÄÎ»ÖÃÆ«ÒÆÁ¿*/
+			/*ç”±é¥æ§å™¨æ“ä½œäº§ç”Ÿçš„ä½ç½®åç§»é‡*/
 			gpslevelcon.pos_x.exp += (RC.CH[0]*MAX_GPS_SPEED/660 * T * cos(mag.heading_filter/57.3f) - RC.CH[1]*MAX_GPS_SPEED/660 * T * sin(mag.heading_filter/57.3f));
 			gpslevelcon.pos_y.exp += (RC.CH[1]*MAX_GPS_SPEED/660 * T * cos(mag.heading_filter/57.3f) + RC.CH[0]*MAX_GPS_SPEED/660 * T * sin(mag.heading_filter/57.3f));
 			
 			gpslevelcon.pos_x.err = gpslevelcon.pos_x.exp - xy_ef.posx.dis_cm;//cm
 			gpslevelcon.pos_y.err = gpslevelcon.pos_y.exp - xy_ef.posy.dis_cm;//cm
 
-			/*Îó²î100cm£¬ÒÔ55cm/sµÄËÙ¶ÈÏòÄ¿±êÎ»ÖÃ¿¿½ü£¬ÆÚÍûËÙ¶ÈÔÚ[-300cm/s,300cm/s]*/
+			/*è¯¯å·®100cmï¼Œä»¥55cm/sçš„é€Ÿåº¦å‘ç›®æ ‡ä½ç½®é è¿‘ï¼ŒæœŸæœ›é€Ÿåº¦åœ¨[-300cm/s,300cm/s]*/
 			gpslevelcon.pos_x.out_p = gpslevelcon.pos_x.err * gpslevelcon.pos_x.kp;
 			gpslevelcon.pos_x.out_i += gpslevelcon.pos_x.err * gpslevelcon.pos_x.ki * T;
 			gpslevelcon.pos_x.out_i = LIMIT(gpslevelcon.pos_x.out_i , -80.0f , 80.0f);

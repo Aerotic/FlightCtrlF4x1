@@ -3,8 +3,8 @@
 #include "board.h"
 
  	    													  
-void SPI1_Init(void);			 //³õÊ¼»¯SPI1¿Ú
-void SPI1_SetSpeed(u8 SpeedSet); //ÉèÖÃSPI1ËÙ¶È   
-u8 SPI1_ReadWriteByte(u8 TxData);//SPI1×ÜÏß¶ÁĞ´Ò»¸ö×Ö½Ú
+void SPI1_Init(void);			 //åˆå§‹åŒ–SPI1å£
+void SPI1_SetSpeed(u8 SpeedSet); //è®¾ç½®SPI1é€Ÿåº¦   
+u8 SPI1_ReadWriteByte(u8 TxData);//SPI1æ€»çº¿è¯»å†™ä¸€ä¸ªå­—èŠ‚
 		 
 #endif

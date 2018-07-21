@@ -3,17 +3,17 @@
 
 #include "board.h"
 
-#define MAX_CTRL_ANGLE        25.0f       //×î´ó×ËÌ¬½Ç¶È
-#define ANGLE_TO_MAX_AS 		  30.0f				//½Ç¶ÈÎó²îNÊ±£¬ÆÚÍû½ÇËÙ¶È´ïµ½×î´ó£¨¿ÉÒÔÍ¨¹ýÍâ»·µÄPÖµµ÷Õû£©
-#define MAX_CTRL_ASPEED 	 	  220.0f			//ROL,PITÔÊÐíµÄ×î´ó¿ØÖÆ½ÇËÙ¶È
-#define MAX_CTRL_YAW_SPEED 	  150.0f			//YAWÔÊÐíµÄ×î´ó¿ØÖÆ½ÇËÙ¶È
+#define MAX_CTRL_ANGLE        25.0f       //æœ€å¤§å§¿æ€è§’åº¦
+#define ANGLE_TO_MAX_AS 		  30.0f				//è§’åº¦è¯¯å·®Næ—¶ï¼ŒæœŸæœ›è§’é€Ÿåº¦è¾¾åˆ°æœ€å¤§ï¼ˆå¯ä»¥é€šè¿‡å¤–çŽ¯çš„På€¼è°ƒæ•´ï¼‰
+#define MAX_CTRL_ASPEED 	 	  220.0f			//ROL,PITå…è®¸çš„æœ€å¤§æŽ§åˆ¶è§’é€Ÿåº¦
+#define MAX_CTRL_YAW_SPEED 	  150.0f			//YAWå…è®¸çš„æœ€å¤§æŽ§åˆ¶è§’é€Ÿåº¦
 
 
-#define CTRL_OUTER_INC_LIMIT 	0.5f *MAX_CTRL_ANGLE		//Íâ»·»ý·Ö·ù¶È
+#define CTRL_OUTER_INC_LIMIT 	0.5f *MAX_CTRL_ANGLE		//å¤–çŽ¯ç§¯åˆ†å¹…åº¦
 #define CTRL_INNER_INC_LIMIT  0.5f *MAX_CTRL_ASPEED
 
-#define READY_THR             100         //µ¡ËÙÓÍÃÅ10%
-#define MAX_THR               1000         //×î´óÓÍÃÅ80%
+#define READY_THR             100         //æ€ é€Ÿæ²¹é—¨10%
+#define MAX_THR               1000         //æœ€å¤§æ²¹é—¨80%
 #define MAX_INNER_OUT         200
 
 struct _terms{

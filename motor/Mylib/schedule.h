@@ -15,12 +15,12 @@ struct _schedule{
 
 
 
-void Loop_1000Hz(void); //1msÖ´ÐÐÒ»´Î
-void Loop_500Hz(void);	//2msÖ´ÐÐÒ»´Î
-void Loop_200Hz(void);	//5msÖ´ÐÐÒ»´Î
-void Loop_100Hz(void);	//10msÖ´ÐÐÒ»´Î
-void Loop_50Hz(void);	  //20msÖ´ÐÐÒ»´Î
-void Loop_20Hz(void);	  //50msÖ´ÐÐÒ»´Î
+void Loop_1000Hz(void); //1msæ‰§è¡Œä¸€æ¬¡
+void Loop_500Hz(void);	//2msæ‰§è¡Œä¸€æ¬¡
+void Loop_200Hz(void);	//5msæ‰§è¡Œä¸€æ¬¡
+void Loop_100Hz(void);	//10msæ‰§è¡Œä¸€æ¬¡
+void Loop_50Hz(void);	  //20msæ‰§è¡Œä¸€æ¬¡
+void Loop_20Hz(void);	  //50msæ‰§è¡Œä¸€æ¬¡
 
 void Loop(void);
 

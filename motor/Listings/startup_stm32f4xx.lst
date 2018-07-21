@@ -857,11 +857,11 @@ ARM Macro Assembler    Page 14
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\startup_stm32f4xx.d -o.\objects\startup_stm32f4xx.o -
-IC:\Users\Aero\Desktop\motor\RTE -IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.
-0\Drivers\CMSIS\Device\ST\STM32F4xx\Include -IC:\Keil_v5\ARM\CMSIS\Include --pr
-edefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --predefine="__UVISION_
-VERSION SETA 521" --predefine="STM32F401xC SETA 1" --list=.\listings\startup_st
-m32f4xx.lst "STM32F4 StdLib\startup_stm32f4xx.s"
+IC:\Users\Aero\Documents\GitHub\FlightCtrlF4x1\motor\RTE -IC:\Keil_v5\ARM\PACK\
+Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include -IC:\Keil_v
+5\ARM\CMSIS\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERS
+ION SETA 521" --predefine="STM32F401xC SETA 1" --list=.\listings\startup_stm32f
+4xx.lst "STM32F4 StdLib\startup_stm32f4xx.s"
 
 
 
@@ -1955,4 +1955,4 @@ Symbol: __main
       At line 184 in file STM32F4
 Comment: __main used once
 2 symbols
-446 symbols in table
+445 symbols in table

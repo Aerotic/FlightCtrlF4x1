@@ -17,9 +17,9 @@ volatile float Cycle_T[GET_TIME_NUM][3];
 */
 float Get_Cycle_T(u8 item)	
 {
-	Cycle_T[item][OLD] = Cycle_T[item][NOW];	//ÉÏÒ»´ÎµÄÊ±¼ä
-	Cycle_T[item][NOW] = GetSysTime_us()/1000000.0f; //±¾´ÎµÄÊ±¼ä
-	Cycle_T[item][NEW] = ( ( Cycle_T[item][NOW] - Cycle_T[item][OLD] ) );//¼ä¸ôµÄÊ±¼ä£¨ÖÜÆÚ£©
+	Cycle_T[item][OLD] = Cycle_T[item][NOW];	//ä¸Šä¸€æ¬¡çš„æ—¶é—´
+	Cycle_T[item][NOW] = GetSysTime_us()/1000000.0f; //æœ¬æ¬¡çš„æ—¶é—´
+	Cycle_T[item][NEW] = ( ( Cycle_T[item][NOW] - Cycle_T[item][OLD] ) );//é—´éš”çš„æ—¶é—´ï¼ˆå‘¨æœŸï¼‰
 	return Cycle_T[item][NEW];
 }
 

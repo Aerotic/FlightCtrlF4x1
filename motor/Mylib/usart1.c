@@ -2,7 +2,7 @@
 
 #if 1
 #pragma import(__use_no_semihosting)             
-//±ê×¼¿âÐèÒªµÄÖ§³Öº¯Êý                 
+//æ ‡å‡†åº“éœ€è¦çš„æ”¯æŒå‡½æ•°                 
 struct __FILE 
 { 
 	int handle; 
@@ -10,15 +10,15 @@ struct __FILE
 }; 
 
 FILE __stdout;       
-////¶¨Òå_sys_exit()ÒÔ±ÜÃâÊ¹ÓÃ°ëÖ÷»úÄ£Ê½    
+////å®šä¹‰_sys_exit()ä»¥é¿å…ä½¿ç”¨åŠä¸»æœºæ¨¡å¼    
 //_sys_exit(int x) 
 //{ 
 //	x = x; 
 //} 
-//ÖØ¶¨Òåfputcº¯Êý 
+//é‡å®šä¹‰fputcå‡½æ•° 
 int fputc(int ch, FILE *f)
 {      
-	while((USART1->SR&0X40)==0);//Ñ­»··¢ËÍ,Ö±µ½·¢ËÍÍê±Ï   
+	while((USART1->SR&0X40)==0);//å¾ªçŽ¯å‘é€,ç›´åˆ°å‘é€å®Œæ¯•   
     USART1->DR = (u8) ch;      
 	return ch;
 }

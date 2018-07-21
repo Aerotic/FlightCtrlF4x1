@@ -4,7 +4,7 @@ struct _parameter parameter;
 
 void Get_parameter(void)
 {
-//×ËÌ¬Íâ»·²ÎÊı
+//å§¿æ€å¤–ç¯å‚æ•°
 		parameter.outer.pit.kp = 0.8;//0.5
 		parameter.outer.pit.ki = 0.11;
 		parameter.outer.pit.kd = 2.0;//2.0
@@ -17,7 +17,7 @@ void Get_parameter(void)
 		parameter.outer.yaw.ki = 0.0;
 		parameter.outer.yaw.kd = 0.0;
 	
-//×ËÌ¬ÄÚ»·²ÎÊı	
+//å§¿æ€å†…ç¯å‚æ•°	
 	  parameter.inner.pit.kp = 0.40;
 	  parameter.inner.pit.ki = 0.0;
 		parameter.inner.pit.kd = 0.02;
@@ -32,24 +32,24 @@ void Get_parameter(void)
 		
 		ctrl.inner.FB = 0.06;
 
-//ÆøÑ¹¶¨¸ß²ÎÊı
-/*¼ÓËÙ¶È¿ØÖÆ£¬P¿ØÖÆ£¬µ¥¶À¿ØÖÆ*/
+//æ°”å‹å®šé«˜å‚æ•°
+/*åŠ é€Ÿåº¦æ§åˆ¶ï¼ŒPæ§åˆ¶ï¼Œå•ç‹¬æ§åˆ¶*/
 		hgt_ctrl.acc.kp = 0.35;
 
-/*ËÙ¶È¿ØÖÆ£¬P¿ØÖÆ*/
+/*é€Ÿåº¦æ§åˆ¶ï¼ŒPæ§åˆ¶*/
 		hgt_ctrl.vel.kp = 2.5;
 
-/*Î»ÖÃ¿ØÖÆ£¬PI¿ØÖÆ*/
+/*ä½ç½®æ§åˆ¶ï¼ŒPIæ§åˆ¶*/
 		hgt_ctrl.pos.kp = 1.0;
 		hgt_ctrl.pos.ki = 0.10;//0.10
-		hgt_ctrl.pos.inc_max = 10.0;//ÔËĞĞÊ±ĞèÒª±ä»¯
+		hgt_ctrl.pos.inc_max = 10.0;//è¿è¡Œæ—¶éœ€è¦å˜åŒ–
 }
 
 
 u8 Param_Save(void)
 {
-	u8 act_page_num = 255;	//¿ÉÒÔÊ¹ÓÃµÄÒ³Âë
-	uint32_t act_page_start = 0;	//¸ÃÒ³ÆğÊ¼µØÖ·
+	u8 act_page_num = 255;	//å¯ä»¥ä½¿ç”¨çš„é¡µç 
+	uint32_t act_page_start = 0;	//è¯¥é¡µèµ·å§‹åœ°å€
 	uint16_t data_cnt = 0;
 	
 	act_page_num = GetActPage();
@@ -58,18 +58,18 @@ u8 Param_Save(void)
 		if(ClearDataFlash())
 			act_page_num = 0;
 		else
-			return False;	//²Á³ıÊ§°Ü
+			return False;	//æ“¦é™¤å¤±è´¥
 	}
 	
 	act_page_start = FLASH_USER_START_ADDR + (act_page_num * PAGE_BYTES);
 	FLASH_Unlock();
 	
-//	if(!WriteInt(act_page_start, data_cnt++, mag.max.x)) return False;	//Ğ´ÈëÊ§°Ü
-//	if(!WriteInt(act_page_start, data_cnt++, mag.max.y)) return False;	//Ğ´ÈëÊ§°Ü
-//	if(!WriteInt(act_page_start, data_cnt++, mag.max.z)) return False;	//Ğ´ÈëÊ§°Ü
-//	if(!WriteInt(act_page_start, data_cnt++, mag.min.x)) return False;	//Ğ´ÈëÊ§°Ü
-//	if(!WriteInt(act_page_start, data_cnt++, mag.min.y)) return False;	//Ğ´ÈëÊ§°Ü
-//	if(!WriteInt(act_page_start, data_cnt++, mag.min.z)) return False;	//Ğ´ÈëÊ§°Ü
+//	if(!WriteInt(act_page_start, data_cnt++, mag.max.x)) return False;	//å†™å…¥å¤±è´¥
+//	if(!WriteInt(act_page_start, data_cnt++, mag.max.y)) return False;	//å†™å…¥å¤±è´¥
+//	if(!WriteInt(act_page_start, data_cnt++, mag.max.z)) return False;	//å†™å…¥å¤±è´¥
+//	if(!WriteInt(act_page_start, data_cnt++, mag.min.x)) return False;	//å†™å…¥å¤±è´¥
+//	if(!WriteInt(act_page_start, data_cnt++, mag.min.y)) return False;	//å†™å…¥å¤±è´¥
+//	if(!WriteInt(act_page_start, data_cnt++, mag.min.z)) return False;	//å†™å…¥å¤±è´¥
 
 	FLASH_Lock(); 
 
@@ -78,8 +78,8 @@ u8 Param_Save(void)
 
 u8 Param_Read(void)
 {
-	u8 act_page_num = 255;	//¿ÉÒÔÊ¹ÓÃµÄÒ³Âë
-	uint32_t act_page_start = 0;	//¸ÃÒ³ÆğÊ¼µØÖ·
+	u8 act_page_num = 255;	//å¯ä»¥ä½¿ç”¨çš„é¡µç 
+	uint32_t act_page_start = 0;	//è¯¥é¡µèµ·å§‹åœ°å€
 	uint16_t data_cnt = 0;
 	
 	act_page_num = GetActPage();

@@ -4,14 +4,14 @@ struct _mag mag;
 u8 hmc5883_buffer[6];
 
 /**************************************
-//³õÊ¼»¯Hmc5883
+//åˆå§‹åŒ–Hmc5883
 **************************************/
 void Hmc5883_Init(void)
 {
 	 I2C_Soft_Single_Write(HMC5883L_ADDRESS,HMC5883L_MODE,0x00);
 }
-/**************************ÊµÏÖº¯Êı********************************************
-//½«iic¶ÁÈ¡µ½µÃÊı¾İ·Ö²ğ,·ÅÈëÏàÓ¦¼Ä´æÆ÷,¸üĞÂhmc5883_Last
+/**************************å®ç°å‡½æ•°********************************************
+//å°†iicè¯»å–åˆ°å¾—æ•°æ®åˆ†æ‹†,æ”¾å…¥ç›¸åº”å¯„å­˜å™¨,æ›´æ–°hmc5883_Last
 ******************************************************************************/
 void Hmc5883_Read(void)
 {
@@ -22,8 +22,8 @@ void Hmc5883_Read(void)
 	 hmc5883_buffer[4]=I2C_Soft_Single_Read(HMC5883L_ADDRESS, HMC5883L_DATA_Y_H);
 	 hmc5883_buffer[5]=I2C_Soft_Single_Read(HMC5883L_ADDRESS, HMC5883L_DATA_Y_L);
 }
-/**************************ÊµÏÖº¯Êı********************************************
-//½«iic¶ÁÈ¡µ½µÃÊı¾İ·Ö²ğ,·ÅÈëÏàÓ¦¼Ä´æÆ÷
+/**************************å®ç°å‡½æ•°********************************************
+//å°†iicè¯»å–åˆ°å¾—æ•°æ®åˆ†æ‹†,æ”¾å…¥ç›¸åº”å¯„å­˜å™¨
 *******************************************************************************/
 void Get_Mag(void)
 {   
@@ -37,8 +37,8 @@ void Get_Mag(void)
 		if(mag.origin.y>0x7fff) mag.origin.y-=0xffff;
 	  if(mag.origin.z>0x7fff) mag.origin.z-=0xffff;
 }
-/**************************ÊµÏÖº¯Êı********************************************
-//Ô­Ê¼Êı¾İ×ª»¯µ½k_lÖÁk_h
+/**************************å®ç°å‡½æ•°********************************************
+//åŸå§‹æ•°æ®è½¬åŒ–åˆ°k_lè‡³k_h
 *******************************************************************************/
 int moxin(int origin,int max,int min,int k_h,int k_l)
 {
@@ -46,8 +46,8 @@ int moxin(int origin,int max,int min,int k_h,int k_l)
 	  out=(k_h-k_l)*(origin-min)/(max-min)+k_l;
 	  return out;
 }
-/**************************ÊµÏÖº¯Êı********************************************
-//»ñÈ¡µ±Ç°·½Ïò
+/**************************å®ç°å‡½æ•°********************************************
+//è·å–å½“å‰æ–¹å‘
 *******************************************************************************/
 void Get_Direction(float T)
 { 
@@ -55,16 +55,16 @@ void Get_Direction(float T)
 		float stpx=sin((float)angle.pitch/57.3f);
 	  float ctpy=cos((float)angle.roll/57.3f);
 	  float stpy=sin((float)angle.roll/57.3f);
-/*´ÅÁ¦¼ÆÔ­Ê¼Öµ¶ÁÈ¡----------------------*/	
+/*ç£åŠ›è®¡åŸå§‹å€¼è¯»å–----------------------*/	
     Get_Mag();
-/*½«Ô²ĞÄ×ªÒÆµ½£¨0,0£©-------------------*/		
+/*å°†åœ†å¿ƒè½¬ç§»åˆ°ï¼ˆ0,0ï¼‰-------------------*/		
     mag.moxin.x=(float)(mag.origin.x*mag.gain.x-mag.offset.x);
     mag.moxin.y=(float)(mag.origin.y*mag.gain.y-mag.offset.y);
     mag.moxin.z=(float)(mag.origin.z*mag.gain.z-mag.offset.z);
-/*µØÃæ×ø±êÏµµÄ´Å³¡*/  
+/*åœ°é¢åæ ‡ç³»çš„ç£åœº*/  
 	  mag.out.x=mag.moxin.x*ctpx+mag.moxin.y*stpy*stpx-mag.moxin.z*ctpy*stpx;
 	  mag.out.y=mag.moxin.y*ctpy+mag.moxin.z*stpy;
-/*headingÓÉ´ÅÁ¦¼Æ¸ø³ö*/  
+/*headingç”±ç£åŠ›è®¡ç»™å‡º*/  
 		mag.heading=-fast_atan2((double)mag.out.y,(double)mag.out.x)*57.3f + mag.heading_offset;
 		if(mag.heading<-180) mag.heading+=360;
 		if(mag.heading>180)  mag.heading-=360;	
@@ -73,8 +73,8 @@ void Get_Direction(float T)
 		mag.heading_filter = mag.heading;
 }
 
-/**************************ÊµÏÖº¯Êı********************************************
-//´ÅÁ¦¼ÆĞ£×¼
+/**************************å®ç°å‡½æ•°********************************************
+//ç£åŠ›è®¡æ ¡å‡†
 *******************************************************************************/
 void Mag_Correct(void)
 {
@@ -84,7 +84,7 @@ void Mag_Correct(void)
 	  mag.min.x=-182;
 	  mag.min.y=-174;
 	  mag.min.z=-233;
-/*´ÅÁ¦¼Æ×î´óÖµ×îĞ¡Öµ*/
+/*ç£åŠ›è®¡æœ€å¤§å€¼æœ€å°å€¼*/
 // 	  mag.max.x=-32768;
 // 	  mag.max.y=-32768;
 // 	  mag.max.z=-32768;
@@ -133,14 +133,14 @@ void Mag_Correct(void)
 // 			}
 // 		}
 			
-/*¸÷ÖáÔöÒæ*/		
+/*å„è½´å¢ç›Š*/		
 		mag.gain.x=1.0f;
 		mag.gain.y=(float)(mag.max.x-mag.min.x)/(float)(mag.max.y-mag.min.y);
 		mag.gain.z=(float)(mag.max.x-mag.min.x)/(float)(mag.max.z-mag.min.z);
-/*ÁãÆ«¼ÆËã*/
+/*é›¶åè®¡ç®—*/
 		mag.offset.x=(mag.max.x+mag.min.x)*0.5f*mag.gain.x;
 		mag.offset.y=(mag.max.y+mag.min.y)*0.5f*mag.gain.y;
 		mag.offset.z=(mag.max.z+mag.min.z)*0.5f*mag.gain.z;
-/*Ê¹»úÍ·Ö¸Ïò±±·½Îª0¶È£¬Î÷90¶È£¬¶«-90¶È*/	
+/*ä½¿æœºå¤´æŒ‡å‘åŒ—æ–¹ä¸º0åº¦ï¼Œè¥¿90åº¦ï¼Œä¸œ-90åº¦*/	
 	  mag.heading_offset = 175.0f;
 }

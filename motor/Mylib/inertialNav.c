@@ -2,7 +2,7 @@
 
 struct _z_ef z_ef;
 
-extern float vx, vy, vz;//(rÏµµ½bÏµµÄµÚÈıÁĞ)
+extern float vx, vy, vz;//(rç³»åˆ°bç³»çš„ç¬¬ä¸‰åˆ—)
 
 int32_t baroAlt_buff[15];
 
@@ -12,32 +12,32 @@ void Update_Velocities_Positions_Z(float T)
 	  static u16 run_times = 0;
 	  static float accz_correction_i=0;
 	
-/***************Z·½ÏòËÙ¶ÈºÍÎ»ÖÃ START***************/			
+/***************Zæ–¹å‘é€Ÿåº¦å’Œä½ç½® START***************/			
 
-		/*ÆøÑ¹¼Æ·ÅÈëÊı×é*/
+		/*æ°”å‹è®¡æ”¾å…¥æ•°ç»„*/
 		Push_baroAlt();
-		/*ÆøÑ¹¼ÆÎ¢·Ö*/
+		/*æ°”å‹è®¡å¾®åˆ†*/
 		baroAlt_dif = (ms5611.baroAlt - baroAlt_buff[14])/(14*T);
-		/*ÆøÑ¹Î¢·ÖµÍÍ¨ÂË²¨*/		
+		/*æ°”å‹å¾®åˆ†ä½é€šæ»¤æ³¢*/		
 		baroAlt_dif = LPF2pApply_2(baroAlt_dif);
-		/*¼ÓËÙ¶ÈĞ£×¼Á¿»ı·Ö*/
+		/*åŠ é€Ÿåº¦æ ¡å‡†é‡ç§¯åˆ†*/
 		accz_correction_i += (baroAlt_dif - z_ef.velz.base)*0.1f*T;
-		/*¼ÓËÙ¶ÈĞ£×¼Á¿»ı·ÖÏŞ·ù*/
+		/*åŠ é€Ÿåº¦æ ¡å‡†é‡ç§¯åˆ†é™å¹…*/
 		accz_correction_i = LIMIT(accz_correction_i,-30,30);
-		/*¼ÓËÙ¶ÈĞ£×¼Á¿*/
+		/*åŠ é€Ÿåº¦æ ¡å‡†é‡*/
 		z_ef.accz.correction = (baroAlt_dif - z_ef.velz.base)*0.2f + accz_correction_i;
-		/*ËÙ¶ÈĞ£×¼Á¿ÔÚ[-1m/s,1/s]*/
+		/*é€Ÿåº¦æ ¡å‡†é‡åœ¨[-1m/s,1/s]*/
 		z_ef.velz.correction = LIMIT(z_ef.velz.correction,-100,100);
-		/*µÃµ½µØÇò×ø±êÏµ£¨earth frame£©ÏÂµÄÊúÖ±¼ÓËÙ¶È*/    /*ÊúÖ±·½Ïò¼ÓËÙ¶È×´Ì¬*/
+		/*å¾—åˆ°åœ°çƒåæ ‡ç³»ï¼ˆearth frameï¼‰ä¸‹çš„ç«–ç›´åŠ é€Ÿåº¦*/    /*ç«–ç›´æ–¹å‘åŠ é€Ÿåº¦çŠ¶æ€*/
 //		z_ef.accz.base = (sensor.acc.filter.x*vx + sensor.acc.filter.y*vy + sensor.acc.filter.z*vz)*980.0f/4096.0f-INTERTIALNAV_GRAVITY;
 		z_ef.accz.base = 100.0f*(phone.acc[0]*vx+phone.acc[1]*vy+phone.acc[2]*vz) - INTERTIALNAV_GRAVITY;
-				/*ËÙ¶ÈÔöÁ¿*/
+				/*é€Ÿåº¦å¢é‡*/
 	  z_ef.velz.increase = (z_ef.accz.base+z_ef.accz.correction) * T;
-		/*¸ß¶È¸üĞÂ x(k+1)=v(k)*t+0.5*a*t^2  */    /*ÊúÖ±·½Ïò¸ß¶È×´Ì¬*/
+		/*é«˜åº¦æ›´æ–° x(k+1)=v(k)*t+0.5*a*t^2  */    /*ç«–ç›´æ–¹å‘é«˜åº¦çŠ¶æ€*/
 	  z_ef.posz.base += (z_ef.velz.base + z_ef.velz.correction + z_ef.velz.increase * 0.5f) * T;
-		/*ËÙ¶È¸üĞÂ v(k+1)=v(k)+a*t  */    /*ÊúÖ±·½ÏòËÙ¶È×´Ì¬*/
+		/*é€Ÿåº¦æ›´æ–° v(k+1)=v(k)+a*t  */    /*ç«–ç›´æ–¹å‘é€Ÿåº¦çŠ¶æ€*/
 		z_ef.velz.base += z_ef.velz.increase;
-/***************Z·½ÏòËÙ¶ÈºÍÎ»ÖÃ END***************/
+/***************Zæ–¹å‘é€Ÿåº¦å’Œä½ç½® END***************/
 }
 
 void Push_baroAlt(void)
